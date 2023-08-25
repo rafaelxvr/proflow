@@ -49,7 +49,7 @@ public class ClientController {
         }
     }
 
-    @RequestMapping("/clients")
+    @RequestMapping("/")
     public ResponseEntity<List<Client>> getClients() {
         var result = clientService.getClients();
 
