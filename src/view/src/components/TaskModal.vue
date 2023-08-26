@@ -76,6 +76,9 @@
 </template>
 
 <script>
+
+import { mapMutations } from "vuex";
+
 export default {
     name: "TaskModal",
     data() {
@@ -92,6 +95,12 @@ export default {
             clientName: null,
             subtaskList: [],
             usersList: []
+        }
+    },
+    methods: {
+        ...mapMutations(['TOGGLE_TASK']),
+        closeTask() {
+            this.TOGGLE_TASK();
         }
     }
 }

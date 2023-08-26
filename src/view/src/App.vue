@@ -2,7 +2,7 @@
     <div v-if="!mobile" class="app flex">
         <NavigationBar/>
         <div class="app-content flex flex-column">
-            <TaskModal />
+            <TaskModal v-if="taskModal" />
             <router-view />
         </div>
     </div>
@@ -15,6 +15,7 @@
 <script>
 import NavigationBar from "@/components/NavigationBar.vue";
 import TaskModal from "@/components/TaskModal.vue"
+import { mapState } from "vuex"
     export default {
         data() {
           return {
@@ -38,6 +39,9 @@ import TaskModal from "@/components/TaskModal.vue"
                 }
                 this.mobile = false;
             }
+        },
+        computed: {
+            ...mapState(['taskModal'])
         }
     }
 </script>

@@ -29,6 +29,7 @@
 
 
 <script>
+import { mapMutations } from "vuex"
   export default {
       name: "Home",
       data() {
@@ -38,7 +39,10 @@
       },
       components: {},
       methods: {
-          newTask() {},
+          ...mapMutations(['TOGGLE_TASK']),
+          newTask() {
+              this.TOGGLE_TASK();
+          },
           toggleFilterMenu() {
               this.filterMenu = !this.filterMenu;
           }
