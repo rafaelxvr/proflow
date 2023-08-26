@@ -2,7 +2,9 @@
     <div v-if="!mobile" class="app flex">
         <NavigationBar/>
         <div class="app-content flex flex-column">
-            <TaskModal v-if="taskModal" />
+            <transition name="task">
+                <TaskModal v-if="taskModal" />
+            </transition>
             <router-view />
         </div>
     </div>

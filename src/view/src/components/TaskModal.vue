@@ -33,7 +33,7 @@
               </div>
           </div>
           <div class="input flex flex-column">
-              <label for="taskStartDate">Due Date</label>
+              <label for="taskStartDate">Start Date</label>
               <input required type="date" id="taskStartDate" v-model="taskStartDate">
           </div>
           <div class="input flex flex-column">
@@ -78,11 +78,13 @@
 <script>
 
 import { mapMutations } from "vuex";
+import { uid } from "uid";
 
 export default {
     name: "TaskModal",
     data() {
         return {
+            dateOptions: { year: "numeric", month: "short", day: "numeric" },
             taskId: null,
             taskName: null,
             taskSector: null,
@@ -94,13 +96,24 @@ export default {
             projectName: null,
             clientName: null,
             subtaskList: [],
-            usersList: []
+            usersList: [],
+            taskStartDateUnix: null
         }
     },
     methods: {
         ...mapMutations(['TOGGLE_TASK']),
         closeTask() {
             this.TOGGLE_TASK();
+        },
+        addNewSubtask() {
+            this.subtaskList.push({
+                id: uid(),
+                name: "",
+                description: ""
+            })
+        },
+        deleteSubtask(id) {
+            this.subtaskList = this.subtaskList.filter(subtask => subtask.id !== id)
         }
     }
 }
@@ -115,7 +128,9 @@ export default {
     width: 100%;
     height: 100vh;
     overflow: scroll;
-
+    &::-webkit-scrollbar {
+      display: none;
+    }
     @media(min-width: 900px) {
       left: 90px;
     }
@@ -185,6 +200,10 @@ export default {
           .table-subtask {
             position: relative;
             margin-bottom: 24px;
+
+            td {
+                padding: 8px;
+            }
 
             img {
               position: absolute;

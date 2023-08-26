@@ -34,6 +34,14 @@
   }
 }
 
+.task-enter-active, .task-leave-active {
+  transition: 0.8s ease all;
+}
+
+.task-enter-from, .task-leave-to {
+  transform: translateX(-700px);
+}
+
 button,
 .button {
   cursor: pointer;
