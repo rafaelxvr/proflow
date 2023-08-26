@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name="tasks")
+@Table(name="Tasks")
 public class Task {
     public long getId() {
         return id;
