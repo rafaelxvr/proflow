@@ -3,6 +3,7 @@
         <NavigationBar/>
         <div class="app-content flex flex-column">
             <router-view />
+            <TaskModal />
         </div>
     </div>
     <div v-else class="mobile-message flex flex-column">
@@ -13,6 +14,7 @@
 
 <script>
 import NavigationBar from "@/components/NavigationBar.vue";
+import TaskModal from "@/components/TaskModal.vue"
     export default {
         data() {
           return {
@@ -20,7 +22,8 @@ import NavigationBar from "@/components/NavigationBar.vue";
           }
         },
         components: {
-            NavigationBar
+            NavigationBar,
+            TaskModal
         },
         created(){
           this.checkScreen();
