@@ -97,6 +97,144 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  .task-wrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: transparent;
+    width: 100%;
+    height: 100vh;
+    overflow: scroll;
 
+    @media(min-width: 900px) {
+      left: 90px;
+    }
+
+    .task-content {
+      position: relative;
+      padding: 56px;
+      max-width: 700px;
+      width: 100%;
+      background-color: #141625;
+      color: white;
+      box-shadow: 10px 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+
+      h1 {
+        margin-bottom: 48px;
+        color: white;
+      }
+
+      h3 {
+        margin-bottom: 16px;
+        font-size: 18px;
+        color: #777f98;
+      }
+
+      h4 {
+        color: #7c5dfa;
+        font-size: 12px;
+        margin-bottom: 24px;
+      }
+
+      .task-information, task-description {
+        margin-bottom: 48px;
+
+        .task-details {
+          gap: 16px;
+          div {
+            flex: 1;
+          }
+        }
+      }
+
+      .task-subtasks {
+        .subtask-list {
+          width: 100%;
+
+          .table-heading, table-subtask {
+            gap: 16px;
+            font-size: 12px;
+
+            .subtask-name {
+              flex-basis: 30%;
+            }
+
+            .subtask-description {
+              flex-basis: 70%;
+            }
+          }
+
+          .table-heading {
+            margin-bottom: 16px;
+
+            th {
+              text-align: center;
+            }
+          }
+
+          .table-subtask {
+            position: relative;
+            margin-bottom: 24px;
+
+            img {
+              position: absolute;
+              top: 50px;
+              right: 0;
+              width: 12px;
+              height: 16px;
+            }
+          }
+        }
+
+        .button {
+          color: white;
+          background-color: #252945;
+          align-items: center;
+          justify-content: center;
+          width: 100%;
+
+          img {
+            margin-right: 4px;
+          }
+        }
+      }
+
+      .save {
+        margin-top: 60px;
+
+        div {
+          flex: 1;
+        }
+
+        .right {
+          justify-content: flex-end;
+        }
+      }
+    }
+
+    .input {
+      margin-bottom: 24px;
+
+    }
+
+    label {
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      background-color: #1e2139;
+      color: white;
+      border-radius: 4px;
+      padding: 12px 4px;
+      border: none;
+      resize: none;
+
+      &.focus {
+        outline: none;
+      }
+    }
+  }
 </style>

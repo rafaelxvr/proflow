@@ -2,8 +2,8 @@
     <div v-if="!mobile" class="app flex">
         <NavigationBar/>
         <div class="app-content flex flex-column">
-            <router-view />
             <TaskModal />
+            <router-view />
         </div>
     </div>
     <div v-else class="mobile-message flex flex-column">
