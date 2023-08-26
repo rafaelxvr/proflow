@@ -5,12 +5,6 @@ import jakarta.persistence.*;
 @Entity
 @Table(name="clients")
 public class Client {
-    @Id()
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String name;
-    private String document;
-    private String email;
     public long getId() {
         return id;
     }
@@ -43,5 +37,10 @@ public class Client {
         this.email = email;
     }
 
-
+    @Id()
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+    private String name;
+    private String document;
+    private String email;
 }
