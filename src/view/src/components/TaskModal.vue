@@ -1,6 +1,7 @@
 <template>
   <div @click="checkClick" ref="taskWrap" class="task-wrap flex flex-column">
       <form @submit.prevent="submitForm" class="task-content">
+          <LoadingScreen v-show="loading"/>
           <h1>New Task</h1>
           <div class="task-information flex flex-column">
             <h4>Task Information</h4>
@@ -68,7 +69,7 @@
               <div class="right flex">
                   <button v-if="!editTask" type="submit" @click="saveDraft" class="dark-purple">Save Draft</button>
                   <button v-if="!editTask" type="submit" @click="publishTask" class="purple">Create Task</button>
-                  <button v-if="editTask" type="sumbit" class="purple">Update Task</button>
+                  <button v-if="editTask" type="submit" class="purple">Update Task</button>
               </div>
           </div>
       </form>
@@ -79,9 +80,13 @@
 
 import { mapMutations } from "vuex";
 import { uid } from "uid";
+import LoadingScreen from '@/components/LoadingScreen.vue'
 
 export default {
     name: "TaskModal",
+    components: {
+        LoadingScreen
+    },
     data() {
         return {
             task: {
@@ -101,11 +106,17 @@ export default {
             dateOptions: { year: "numeric", month: "short", day: "numeric" },
             subtaskList: [],
             usersList: [],
-            taskStartDateUnix: null
+            taskStartDateUnix: null,
+            loading: null
         }
     },
     methods: {
-        ...mapMutations(['TOGGLE_TASK']),
+        ...mapMutations(['TOGGLE_TASK', 'TOGGLE_MODAL']),
+        checkClick(event) {
+          if (event.target === this.$refs.taskWrap) {
+            this.TOGGLE_MODAL();
+          }
+        },
         closeTask() {
             this.TOGGLE_TASK();
         },
@@ -131,7 +142,7 @@ export default {
                 return;
             }
 
-            console.log(JSON.stringify(this.task))
+            this.loading = true;
 
             await fetch("http://localhost:8080/api/tasks/add", {
                 method: "POST",
@@ -145,6 +156,7 @@ export default {
 
             await this.uploadSubTasks()
 
+            this.loading = false;
             this.TOGGLE_TASK();
         },
         async uploadSubTasks() {

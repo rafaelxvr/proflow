@@ -1,23 +1,27 @@
 <template>
-    <div v-if="!mobile" class="app flex">
-        <NavigationBar/>
-        <div class="app-content flex flex-column">
-            <transition name="task">
-                <TaskModal v-if="taskModal" />
-            </transition>
-            <router-view />
+    <div v-if="tasksLoaded">
+        <div v-if="!mobile" class="app flex">
+            <NavigationBar/>
+            <div class="app-content flex flex-column">
+                <Modal v-if="modalActive"/>
+                <transition name="task">
+                    <TaskModal v-if="taskModal" />
+                </transition>
+                <router-view />
+            </div>
         </div>
-    </div>
-    <div v-else class="mobile-message flex flex-column">
-        <h2>Sorry, this app is not supported on Mobile Devices</h2>
-        <p>To use this app, please use a Computer or Tablet</p>
+        <div v-else class="mobile-message flex flex-column">
+            <h2>Sorry, this app is not supported on Mobile Devices</h2>
+            <p>To use this app, please use a Computer or Tablet</p>
+        </div>
     </div>
 </template>
 
 <script>
 import NavigationBar from "@/components/NavigationBar.vue";
 import TaskModal from "@/components/TaskModal.vue"
-import { mapState } from "vuex"
+import Modal from "@/components/Modal.vue"
+import { mapState, mapActions } from "vuex"
     export default {
         data() {
           return {
@@ -26,13 +30,16 @@ import { mapState } from "vuex"
         },
         components: {
             NavigationBar,
-            TaskModal
+            TaskModal,
+            Modal
         },
-        created(){
+        created() {
+          this.GET_TASKS()
           this.checkScreen();
           window.addEventListener("resize", this.checkScreen);
         },
         methods: {
+            ...mapActions(['GET_TASKS']),
             checkScreen() {
                 const windowWidth = window.innerWidth;
                 if(windowWidth <= 750) {
@@ -43,7 +50,7 @@ import { mapState } from "vuex"
             }
         },
         computed: {
-            ...mapState(['taskModal'])
+            ...mapState(['taskModal', 'modalActive', 'tasksLoaded'])
         }
     }
 </script>

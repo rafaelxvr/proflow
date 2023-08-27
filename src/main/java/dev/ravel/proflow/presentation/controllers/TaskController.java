@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/tasks")
+@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE})
 public class TaskController {
     private final TaskService taskService;
 
@@ -34,22 +35,30 @@ public class TaskController {
 
     @GetMapping("/tasks/{id}")
     public ResponseEntity<Task> getTaskById(@PathVariable("id") long id) {
-        Task result = taskService.getTaskById(id);
+        try {
+            Task result = taskService.getTaskById(id);
 
-        if (result != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(result);
-        } else {
+            if (result != null) {
+                return ResponseEntity.status(HttpStatus.OK).body(result);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
+        } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
     @GetMapping("/")
     public ResponseEntity<List<Task>> getTasks() {
-        List<Task> result = taskService.getTasks();
+        try {
+            List<Task> result = taskService.getTasks();
 
-        if (result != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(result);
-        } else {
+            if (result != null) {
+                return ResponseEntity.status(HttpStatus.OK).body(result);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
+        } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }

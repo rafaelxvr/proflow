@@ -25,12 +25,16 @@
               </div>
           </div>
       </div>
+      <div class="tasks flex">
+          <Task v-for="(task, index) in taskData" :task="task" :key="index" />
+      </div>
   </div>
 </template>
 
 
 <script>
-import { mapMutations } from "vuex"
+import Task from "@/components/Task.vue"
+import { mapMutations, mapState } from "vuex"
   export default {
       name: "Home",
       data() {
@@ -38,7 +42,9 @@ import { mapMutations } from "vuex"
             filterMenu: null,
         }
       },
-      components: {},
+      components: {
+          Task
+      },
       methods: {
           ...mapMutations(['TOGGLE_TASK']),
           newTask() {
@@ -47,6 +53,9 @@ import { mapMutations } from "vuex"
           toggleFilterMenu() {
               this.filterMenu = !this.filterMenu;
           }
+      },
+      computed: {
+          ...mapState(['taskData'])
       }
   }
 </script>
