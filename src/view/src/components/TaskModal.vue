@@ -6,20 +6,20 @@
             <h4>Task Information</h4>
               <div class="input flex flex-column">
                   <label for="taskName">Task Name</label>
-                  <input required type="text" id="taskName" v-model="taskName">
+                  <input required type="text" id="taskName" v-model="task.name">
               </div>
               <div class="task-details flex">
                   <div class="input flex flex-column">
                       <label for="taskSector">Sector</label>
-                      <input required type="text" id="taskSector" v-model="taskSector">
+                      <input required type="text" id="taskSector" v-model="task.sectorName">
                   </div>
                   <div class="input flex flex-column">
                       <label for="taskEpic">Epic</label>
-                      <input required type="text" id="taskEpic" v-model="taskEpic">
+                      <input required type="text" id="taskEpic" v-model="task.epicName">
                   </div>
                   <div class="input flex flex-column">
                       <label for="taskCreator">Creator</label>
-                      <select v-model="taskCreator">
+                      <select v-model="task.creatorName">
                           <option v-for="user in usersList" :value="user" :key="user.id">{{ user }}</option>
                       </select>
                   </div>
@@ -29,16 +29,16 @@
               <h4>Task Description</h4>
               <div class="input flex flex-column">
                   <label for="taskDescription">Description</label>
-                  <textarea required id="taskDescription" v-model="taskDescription" />
+                  <textarea required id="taskDescription" v-model="task.description" />
               </div>
           </div>
           <div class="input flex flex-column">
               <label for="taskStartDate">Start Date</label>
-              <input required type="date" id="taskStartDate" v-model="taskStartDate">
+              <input required type="date" id="taskStartDate" v-model="task.startDate">
           </div>
           <div class="input flex flex-column">
               <label for="taskDueDate">Due Date</label>
-              <input required type="date" id="taskDueDate" v-model="taskDueDate">
+              <input required type="date" id="taskDueDate" v-model="task.dueDate">
           </div>
 
           <div class="task-subtasks">
@@ -84,17 +84,21 @@ export default {
     name: "TaskModal",
     data() {
         return {
+            task: {
+                id: null,
+                name: null,
+                description: null,
+                creatorName: null,
+                sectorName: null,
+                epicName: null,
+                startDate: null,
+                dueDate: null,
+                status: null,
+                projectId: null,
+                clientId: null,
+                userId: null,
+            },
             dateOptions: { year: "numeric", month: "short", day: "numeric" },
-            taskId: null,
-            taskName: null,
-            taskSector: null,
-            taskEpic: null,
-            taskCreator: null,
-            taskDescription: null,
-            taskStartDate: null,
-            taskDueDate: null,
-            projectName: null,
-            clientName: null,
             subtaskList: [],
             usersList: [],
             taskStartDateUnix: null
@@ -113,7 +117,59 @@ export default {
             })
         },
         deleteSubtask(id) {
-            this.subtaskList = this.subtaskList.filter(subtask => subtask.id !== id)
+            this.subtaskList = this.subtaskList.filter(subtask => subtask.id !== id);
+        },
+        publishTask() {
+            this.task.status = "Ready for Dev";
+        },
+        saveDraft() {
+            this.task.status = "Backlog";
+        },
+        async uploadTask() {
+            if (this.subtaskList.length <= 0) {
+                alert('Please ensure you added subtasks!')
+                return;
+            }
+
+            console.log(JSON.stringify(this.task))
+
+            await fetch("http://localhost:8080/api/tasks/add", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(this.task),
+            }).then(data => {
+               this.task.id = data?.id;
+            });
+
+            await this.uploadSubTasks()
+
+            this.TOGGLE_TASK();
+        },
+        async uploadSubTasks() {
+            this.subtaskList.forEach(
+                subtask => {
+                    const subtaskData = {
+                        id: subtask.id,
+                        name: subtask.name,
+                        description: subtask.description,
+                        task: this.task
+                    }
+                    fetch("http://localhost:8080/api/subtasks/add", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(subtaskData),
+                    }).catch(err => {
+                        alert(err.message);
+                    });
+                }
+            )
+        },
+        submitForm() {
+            this.uploadTask()
         }
     }
 }

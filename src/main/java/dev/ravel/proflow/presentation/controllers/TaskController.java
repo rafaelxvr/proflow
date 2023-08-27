@@ -18,12 +18,12 @@ public class TaskController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addTask(@RequestBody Task task) {
+    public ResponseEntity addTask(@RequestBody Task task) {
         try {
             Task result = taskService.addTask(task);
 
             if (result != null) {
-                return ResponseEntity.status(HttpStatus.CREATED).body("Task added successfully");
+                return ResponseEntity.status(HttpStatus.CREATED).body(result);
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to add task");
             }

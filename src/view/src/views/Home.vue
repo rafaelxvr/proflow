@@ -11,6 +11,7 @@
                   <img src="@/assets/icon-arrow-down.svg" alt="">
                   <ul v-show="filterMenu" class="filter-menu">
                       <li>Backlog</li>
+                      <li>Ready for Dev</li>
                       <li>In Progress</li>
                       <li>Done</li>
                       <li>Clear Filter</li>

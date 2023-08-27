@@ -70,6 +70,13 @@ public class Task {
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public long getProjectId() {
         return projectId;
@@ -105,6 +112,8 @@ public class Task {
     private String epicName;
     private Date startDate;
     private Date dueDate;
+
+    private String status;
     private long projectId;
     private long clientId;
     private long userId;
