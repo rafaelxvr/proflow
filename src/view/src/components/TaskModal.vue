@@ -131,10 +131,10 @@ export default {
             this.subtaskList = this.subtaskList.filter(subtask => subtask.id !== id);
         },
         publishTask() {
-            this.task.status = "Ready for Dev";
+            this.task.status = "ready for dev";
         },
         saveDraft() {
-            this.task.status = "Backlog";
+            this.task.status = "backlog";
         },
         async uploadTask() {
             if (this.subtaskList.length <= 0) {
