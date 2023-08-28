@@ -106,6 +106,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
+    @Column(columnDefinition = "text")
     private String description;
     private String creatorName;
     private String sectorName;
