@@ -63,7 +63,7 @@ public class SubtaskController {
         }
     }
 
-    @PutMapping("/subtasks")
+    @PostMapping("/update")
     public ResponseEntity<Subtask> updateSubtask(@RequestBody Subtask subtask) {
         try {
             Subtask result = subtaskService.updateSubtask(subtask);

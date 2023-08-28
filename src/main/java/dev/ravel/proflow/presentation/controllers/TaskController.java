@@ -63,7 +63,7 @@ public class TaskController {
         }
     }
 
-    @PutMapping("/tasks")
+    @PostMapping("/update")
     public ResponseEntity<Task> updateTask(@RequestBody Task task) {
         try {
             Task result = taskService.updateTask(task);

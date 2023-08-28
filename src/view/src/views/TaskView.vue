@@ -111,7 +111,14 @@ export default {
         }
     },
     computed: {
-        ...mapState(['currentTaskArray'])
+        ...mapState(['currentTaskArray', 'editTask'])
+    },
+    watch: {
+        editTask() {
+            if(!this.editTask) {
+                this.currentTask = this.currentTaskArray[0];
+            }
+        }
     }
 }
 </script>

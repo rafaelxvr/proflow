@@ -71,7 +71,7 @@
               <div class="right flex">
                   <button v-if="!editTask" type="submit" @click="saveDraft" class="dark-purple">Save Draft</button>
                   <button v-if="!editTask" type="submit" @click="publishTask" class="purple">Create Task</button>
-                  <button v-if="editTask" type="submit" class="purple">Update Task</button>
+                  <button v-if="editTask" type="submit" @click="updateTask" class="purple">Update Task</button>
               </div>
           </div>
       </form>
@@ -80,7 +80,7 @@
 
 <script>
 
-import { mapMutations, mapState } from "vuex";
+import { mapMutations, mapState, mapActions } from "vuex";
 import { uid } from "uid";
 import LoadingScreen from '@/components/LoadingScreen.vue'
 
@@ -129,6 +129,7 @@ export default {
     },
     methods: {
         ...mapMutations(['TOGGLE_TASK', 'TOGGLE_MODAL', 'TOGGLE_EDIT_TASK']),
+        ...mapActions(['UPDATE_TASK']),
         checkClick(event) {
           if (event.target === this.$refs.taskWrap) {
             this.TOGGLE_MODAL();
@@ -170,7 +171,7 @@ export default {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(this.task),
-            })
+                })
                 .then(res => res.json())
                 .then(data => {
                    this.task.id = data?.id;
@@ -202,8 +203,86 @@ export default {
                 }
             )
         },
-        submitForm() {
-            this.uploadTask()
+        async updateTask() {
+            if (this.subtaskList.length <= 0) {
+                alert('Please ensure you added subtasks!')
+                return;
+            }
+            this.loading = true;
+
+            let payload = {
+                id: null,
+                name: null,
+                description: null,
+                creatorName: null,
+                sectorName: null,
+                epicName: null,
+                startDate: null,
+                dueDate: null,
+                status: null,
+                projectId: null,
+                clientId: null,
+                userId: null,
+                subtaskList: []
+            };
+
+            await fetch("http://localhost:8080/api/tasks/update", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(this.task),
+            })
+                .then(res => res.json())
+                .then(async data => {
+                    payload = {
+                        id: data.id,
+                        name: data.name,
+                        description: data.description,
+                        creatorName: data.creatorName,
+                        sectorName: data.sectorName,
+                        epicName: data.epicName,
+                        startDate: data.startDate,
+                        dueDate: data.dueDate,
+                        status: data.status,
+                        projectId: data.projectId,
+                        clientId: data.clientId,
+                        userId: data.userId
+                    };
+                });
+            payload.subtaskList = [...(await this.updateSubtask(payload))]
+            await this.UPDATE_TASK(payload);
+        },
+        async updateSubtask(updatedTask) {
+            this.subtaskList.forEach(
+                subtask => {
+                    const subtaskData = {
+                        id: subtask.id,
+                        name: subtask.name,
+                        description: subtask.description,
+                        task: updatedTask
+                    }
+                    fetch("http://localhost:8080/api/subtasks/update", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(subtaskData),
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            return data
+                        });
+                }
+            )
+        },
+        async submitForm() {
+            if (this.editTask) {
+                await this.updateTask()
+                return;
+            }
+
+            await this.uploadTask()
         }
     }
 }

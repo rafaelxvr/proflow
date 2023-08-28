@@ -49,6 +49,15 @@ export default createStore({
                     })
                     commit('TASKS_LOADED');
                 });
+        },
+        async UPDATE_TASK({ commit, dispatch, state }, { payload }) {
+            await dispatch('GET_TASKS');
+            commit('TOGGLE_TASK', state);
+            commit('TOGGLE_EDIT_TASK', state);
+            commit('SET_CURRENT_TASK', state, payload.id)
+        },
+        async DELETE_TASK(state, payload) {
+
         }
     },
     modules: {}
