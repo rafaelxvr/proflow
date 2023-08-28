@@ -60,7 +60,7 @@ public class ClientController {
         }
     }
 
-    @PutMapping("/clients")
+    @PutMapping("/clients/update")
     public ResponseEntity<Client> updateClient(@RequestBody Client client) {
         try {
             var result = clientService.updateClient(client);

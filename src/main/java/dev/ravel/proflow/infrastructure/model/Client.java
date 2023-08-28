@@ -21,12 +21,12 @@ public class Client {
         this.name = name;
     }
 
-    public String getDocument() {
-        return document;
+    public String getDocumentId() {
+        return documentId;
     }
 
-    public void setDocument(String document) {
-        this.document = document;
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
     }
 
     public String getEmail() {
@@ -41,6 +41,6 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
-    private String document;
+    private String documentId;
     private String email;
 }

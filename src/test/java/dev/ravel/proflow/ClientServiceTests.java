@@ -30,6 +30,7 @@ public class ClientServiceTests {
     public void testAddClient() {
         Client newClient = new Client();
         newClient.setName("John Doe");
+        newClient.setDocumentId("123456789"); // Added documentId
         newClient.setEmail("john@example.com");
 
         when(clientRepository.save(any(Client.class))).thenReturn(newClient);
@@ -38,6 +39,7 @@ public class ClientServiceTests {
 
         assertNotNull(addedClient);
         assertEquals("John Doe", addedClient.getName());
+        assertEquals("123456789", addedClient.getDocumentId()); // Check documentId
         assertEquals("john@example.com", addedClient.getEmail());
 
         verify(clientRepository, times(1)).save(any(Client.class));
@@ -48,6 +50,7 @@ public class ClientServiceTests {
         Client client = new Client();
         client.setId(1L);
         client.setName("John Doe");
+        client.setDocumentId("987654321"); // Added documentId
         client.setEmail("john@example.com");
 
         when(clientRepository.findById(1L)).thenReturn(Optional.of(client));
@@ -56,6 +59,7 @@ public class ClientServiceTests {
 
         assertNotNull(foundClient);
         assertEquals("John Doe", foundClient.getName());
+        assertEquals("987654321", foundClient.getDocumentId()); // Check documentId
         assertEquals("john@example.com", foundClient.getEmail());
 
         verify(clientRepository, times(1)).findById(1L);
