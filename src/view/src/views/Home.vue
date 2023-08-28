@@ -3,7 +3,18 @@
       <div class="header flex">
           <div class="left flex flex-column">
               <h1>Tasks</h1>
-              <span>Project Name + Client Name</span>
+              <div class="input flex flex-column">
+                  <label for="clients">Client</label>
+                  <select v-model="this.project.name">
+                      <option v-for="project in projectList" :value="project" :key="project.name">{{ project.name }}</option>
+                  </select>
+              </div>
+              <div class="input flex flex-column">
+                  <label for="clients">Project</label>
+                  <select v-model="client.name">
+                      <option v-for="client in clientList" :value="client" :key="client.name">{{ client.name }}</option>
+                  </select>
+              </div>
           </div>
           <div class="right flex">
               <div @click="toggleFilterMenu" class="filter flex">
@@ -16,6 +27,18 @@
                       <li>Done</li>
                       <li>Clear Filter</li>
                   </ul>
+              </div>
+              <div @click="newClient" class="button flex">
+                  <div class="inner-button flex">
+                      <img src="@/assets/icon-plus.svg" alt="">
+                  </div>
+                  <span>New Client</span>
+              </div>
+              <div @click="newProject" class="button flex">
+                  <div class="inner-button flex">
+                      <img src="@/assets/icon-plus.svg" alt="">
+                  </div>
+                  <span>New Project</span>
               </div>
               <div @click="newTask" class="button flex">
                   <div class="inner-button flex">
@@ -44,7 +67,19 @@ import { mapMutations, mapState } from "vuex"
       name: "Home",
       data() {
         return {
+            project: {
+                id: null,
+                name: '',
+                status: '',
+                clientId: null
+            },
+            client: {
+                id: null,
+                name: ''
+            },
             filterMenu: null,
+            projectList: [],
+            clientList: []
         }
       },
       components: {
@@ -143,6 +178,21 @@ import { mapMutations, mapState } from "vuex"
         }
       }
     }
+
+      input, select, textarea {
+          width: 60%;
+          height: 35%;
+          background-color: #1e2139;
+          color: white;
+          border-radius: 4px;
+          padding: 12px 4px;
+          border: none;
+          resize: none;
+
+          &.focus {
+              outline: none;
+          }
+      }
   }
 
   .empty {
