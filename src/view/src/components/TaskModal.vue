@@ -2,7 +2,9 @@
   <div @click="checkClick" ref="taskWrap" class="task-wrap flex flex-column">
       <form @submit.prevent="submitForm" class="task-content">
           <LoadingScreen v-show="loading"/>
-          <h1>New Task</h1>
+          <h1 v-if="!editTask">New Task</h1>
+          <h1 v-else>Edit Task</h1>
+
           <div class="task-information flex flex-column">
             <h4>Task Information</h4>
               <div class="input flex flex-column">
@@ -78,7 +80,7 @@
 
 <script>
 
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 import { uid } from "uid";
 import LoadingScreen from '@/components/LoadingScreen.vue'
 
@@ -110,8 +112,11 @@ export default {
             loading: null
         }
     },
+    computed: {
+        ...mapState(['editTask']),
+    },
     methods: {
-        ...mapMutations(['TOGGLE_TASK', 'TOGGLE_MODAL']),
+        ...mapMutations(['TOGGLE_TASK', 'TOGGLE_MODAL', 'TOGGLE_EDIT_TASK']),
         checkClick(event) {
           if (event.target === this.$refs.taskWrap) {
             this.TOGGLE_MODAL();
@@ -119,6 +124,9 @@ export default {
         },
         closeTask() {
             this.TOGGLE_TASK();
+            if (this.editTask) {
+                this.TOGGLE_EDIT_TASK();
+            }
         },
         addNewSubtask() {
             this.subtaskList.push({

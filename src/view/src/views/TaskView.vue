@@ -96,10 +96,14 @@ export default {
       this.formatDates()
     },
     methods: {
-        ...mapMutations(['SET_CURRENT_TASK']),
+        ...mapMutations(['SET_CURRENT_TASK', 'TOGGLE_EDIT_TASK', 'TOGGLE_TASK']),
         getCurrentTask() {
             this.SET_CURRENT_TASK(this.$route.params.taskId)
             this.currentTask = this.currentTaskArray[0];
+        },
+        toggleEditTask() {
+          this.TOGGLE_EDIT_TASK();
+          this.TOGGLE_TASK();
         },
         formatDates() {
             this.formattedStartDate = new Date(this.currentTask.startDate).toLocaleDateString("en-us", this.dateOptions)

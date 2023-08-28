@@ -13,18 +13,24 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 export default {
     name: "modal",
     methods: {
-      ...mapMutations(['TOGGLE_MODAL', 'TOGGLE_TASK']),
+      ...mapMutations(['TOGGLE_MODAL', 'TOGGLE_TASK', 'TOGGLE_EDIT_TASK']),
       closeModal() {
           this.TOGGLE_MODAL();
       },
       closeTask() {
           this.TOGGLE_MODAL();
           this.TOGGLE_TASK();
+          if (this.editTask) {
+              this.TOGGLE_EDIT_TASK();
+          }
       }
+    },
+    computed: {
+        ...mapState(['editTask'])
     }
 }
 </script>
