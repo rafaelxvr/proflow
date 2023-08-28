@@ -34,7 +34,7 @@ public class SubtaskController {
     }
 
     @GetMapping("/subtasks/{id}")
-    public ResponseEntity<Subtask> getSubtaskById(@PathVariable("id") int id) {
+    public ResponseEntity<Subtask> getSubtaskById(@PathVariable("id") String id) {
         Subtask result = subtaskService.getSubtaskById(id);
 
         if (result != null) {
@@ -71,7 +71,7 @@ public class SubtaskController {
     }
 
     @DeleteMapping("/subtasks/{id}")
-    public ResponseEntity<String> deleteSubtask(@PathVariable("id") int id) {
+    public ResponseEntity<String> deleteSubtask(@PathVariable("id") String id) {
         try {
             subtaskService.deleteSubtask(id);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body("Successfully deleted a subtask.");

@@ -5,7 +5,8 @@ export default createStore({
         taskData: [],
         taskModal: null,
         modalActive: null,
-        tasksLoaded: null
+        tasksLoaded: null,
+        currentTaskArray: null
     },
     mutations: {
         TOGGLE_TASK(state) {
@@ -16,10 +17,14 @@ export default createStore({
         },
         SET_TASK_DATA(state, payload) {
             state.taskData.push(payload);
-            console.log(state.taskData);
         },
         TASKS_LOADED(state) {
             state.tasksLoaded = true;
+        },
+        SET_CURRENT_TASK(state, payload) {
+            state.currentTaskArray = state.taskData.filter(task => {
+                return task.id === parseInt(payload)
+            })
         }
     },
     actions: {

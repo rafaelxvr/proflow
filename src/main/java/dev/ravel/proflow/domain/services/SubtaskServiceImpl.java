@@ -22,7 +22,7 @@ public class SubtaskServiceImpl implements SubtaskService {
     }
 
     @Override
-    public Subtask getSubtaskById(int id) {
+    public Subtask getSubtaskById(String id) {
         return subtaskRepository.findById(id).orElse(null);
     }
 
@@ -32,7 +32,7 @@ public class SubtaskServiceImpl implements SubtaskService {
     }
 
     @Override
-    public void deleteSubtask(int id) {
+    public void deleteSubtask(String id) {
         subtaskRepository.deleteById(id);
     }
 

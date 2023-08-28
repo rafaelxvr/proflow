@@ -7,11 +7,11 @@ import java.util.List;
 public interface SubtaskService {
     Subtask addSubtask(Subtask subtask);
 
-    Subtask getSubtaskById(int id);
+    Subtask getSubtaskById(String id);
 
     List<Subtask> getSubtasksByTaskId(int taskId);
 
-    void deleteSubtask(int id);
+    void deleteSubtask(String id);
 
     Subtask updateSubtask(Subtask subtask);
 }

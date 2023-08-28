@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface SubtaskRepository extends JpaRepository<Subtask, Integer> {
+public interface SubtaskRepository extends JpaRepository<Subtask, String> {
     List<Subtask> findByTaskId(int taskId);
 }

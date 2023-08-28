@@ -131,7 +131,7 @@ export default {
             this.subtaskList = this.subtaskList.filter(subtask => subtask.id !== id);
         },
         publishTask() {
-            this.task.status = "ready for dev";
+            this.task.status = "ready";
         },
         saveDraft() {
             this.task.status = "backlog";

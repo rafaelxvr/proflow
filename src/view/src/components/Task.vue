@@ -2,13 +2,14 @@
   <router-link class="task flex" :to="{ name: 'Task', params: { taskId: task.id }  }">
       <div class="left flex">
           <span class="task-id">{{task.epicName}}#{{task.id}}</span>
-          <span class="due-date">{{task.dueDate}}</span>
+          <span class="name">{{task.name}}</span>
+          <span class="due-date">{{task.startDate}}</span>
       </div>
       <div class="right flex">
-          <span class="name">{{task.name}}</span>
-          <div class="status-button flex pending" :class="{
+          <span class="due-date">{{task.dueDate}}</span>
+          <div class="status-button flex" :class="{
             backlog : task.status === 'backlog',
-            ready : task.status === 'ready',
+            ready : task.status === 'ready' ?? true,
             progress : task.status === 'in progress',
             done : task.status === 'done' }"
           >
@@ -59,18 +60,18 @@ export default {
             .task-id {
                 text-transform: uppercase;
             }
+
+            .name {
+                flex: 1;
+                font-size: 16px;
+                font-weight: 600;
+            }
         }
 
         .right {
             gap: 16px;
             flex-basis: 40%;
             align-items: center;
-
-            .name {
-                flex: 1;
-                font-size: 16px;
-                font-weight: 600px;
-            }
         }
     }
 </style>

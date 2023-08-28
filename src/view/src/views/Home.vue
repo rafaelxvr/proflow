@@ -25,8 +25,13 @@
               </div>
           </div>
       </div>
-      <div class="tasks flex">
+      <div class="tasks" v-if="taskData.length > 0">
           <Task v-for="(task, index) in taskData" :task="task" :key="index" />
+      </div>
+      <div v-else class="empty flex flex-column">
+        <img src="@/assets/illustration-empty.svg" alt="">
+        <h3>There is nothing here.</h3>
+        <p>Create a new task by clicking the New Task button and get started</p>
       </div>
   </div>
 </template>
@@ -138,5 +143,28 @@ import { mapMutations, mapState } from "vuex"
         }
       }
     }
+  }
+
+  .empty {
+      margin-top: 160px;
+      align-items: center;
+
+      img {
+          width: 214px;
+          height: 200px;
+      }
+
+      h3 {
+          font-size: 20px;
+          margin-top: 40px;
+      }
+
+      p {
+          text-align: center;
+          max-width: 224px;
+          font-size: 12px;
+          font-weight: 300;
+          margin-top: 16px;
+      }
   }
 </style>
