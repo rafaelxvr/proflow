@@ -37,8 +37,14 @@ export default createStore({
             await fetch("http://localhost:8080/api/tasks/")
                 .then((res) => res.json())
                 .then((data) => {
-                    data.forEach(record => {
+                    data.forEach(async record => {
                         if (!state.taskData.some(task => record.id === task.id)) {
+                            await fetch(`http://localhost:8080/api/subtasks/tasks/${record.id}`)
+                                .then(res => res.json())
+                                .then(subtasks => {
+                                    record.subtaskList = subtasks.map(subtask => ({ id: subtask.id, name: subtask.name }));
+                                    console.log(record.subtaskList)
+                                })
                             commit('SET_TASK_DATA', record);
                         }
                     })

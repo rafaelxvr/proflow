@@ -35,22 +35,30 @@ public class SubtaskController {
 
     @GetMapping("/subtasks/{id}")
     public ResponseEntity<Subtask> getSubtaskById(@PathVariable("id") String id) {
-        Subtask result = subtaskService.getSubtaskById(id);
+        try {
+            Subtask result = subtaskService.getSubtaskById(id);
 
-        if (result != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(result);
-        } else {
+            if (result != null) {
+                return ResponseEntity.status(HttpStatus.OK).body(result);
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            }
+        } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
     @GetMapping("/tasks/{taskId}")
     public ResponseEntity<List<Subtask>> getSubtasksByTaskId(@PathVariable("taskId") int taskId) {
-        List<Subtask> result = subtaskService.getSubtasksByTaskId(taskId);
+        try {
+            List<Subtask> result = subtaskService.getSubtasksByTaskId(taskId);
 
-        if (result != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(result);
-        } else {
+            if (result != null) {
+                return ResponseEntity.status(HttpStatus.OK).body(result);
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            }
+        } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }

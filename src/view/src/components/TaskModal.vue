@@ -112,8 +112,20 @@ export default {
             loading: null
         }
     },
+    created() {
+        if (this.editTask) {
+            const currentTask = this.currentTaskArray[0];
+            for (const prop in currentTask) {
+                if (currentTask.hasOwnProperty(prop)) {
+                    this.task[prop] = currentTask[prop];
+                }
+            }
+            if (currentTask.subtaskList !== null && currentTask.subtaskList.length > 0)
+                this.subtaskList = currentTask.subtaskList;
+        }
+    },
     computed: {
-        ...mapState(['editTask']),
+        ...mapState(['editTask', 'currentTaskArray']),
     },
     methods: {
         ...mapMutations(['TOGGLE_TASK', 'TOGGLE_MODAL', 'TOGGLE_EDIT_TASK']),
@@ -158,9 +170,11 @@ export default {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(this.task),
-            }).then(data => {
-               this.task.id = data?.id;
-            });
+            })
+                .then(res => res.json())
+                .then(data => {
+                   this.task.id = data?.id;
+                });
 
             await this.uploadSubTasks()
 

@@ -13,6 +13,9 @@ public class Subtask {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "description", nullable = false)
+    private String description;
+
     @ManyToOne
     @JoinColumn(name = "task_id", referencedColumnName = "id")
     private Task task;
@@ -39,5 +42,13 @@ public class Subtask {
 
     public void setTask(Task task) {
         this.task = task;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -3,10 +3,10 @@
       <div class="left flex">
           <span class="task-id">{{task.epicName}}#{{task.id}}</span>
           <span class="name">{{task.name}}</span>
-          <span class="due-date">{{task.startDate}}</span>
+          <span class="due-date">{{formattedStartDate}}</span>
       </div>
       <div class="right flex">
-          <span class="due-date">{{task.dueDate}}</span>
+          <span class="due-date">{{formattedDueDate}}</span>
           <div class="status-button flex" :class="{
             backlog : task.status === 'backlog',
             ready : task.status === 'ready' ?? true,
@@ -28,7 +28,23 @@
 <script>
 export default {
     name: "task",
-    props: ['task']
+    props: ['task'],
+    data() {
+        return {
+            formattedStartDate: null,
+            formattedDueDate: null,
+            dateOptions: { year: "numeric", month: "short", day: "numeric" }
+        }
+    },
+    created() {
+        this.formatDates()
+    },
+    methods: {
+        formatDates() {
+            this.formattedStartDate = new Date(this.task.startDate).toLocaleDateString("en-us", this.dateOptions)
+            this.formattedDueDate = new Date(this.task.dueDate).toLocaleDateString("en-us", this.dateOptions)
+        }
+    }
 }
 </script>
 
