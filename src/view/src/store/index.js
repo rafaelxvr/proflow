@@ -119,11 +119,19 @@ export default createStore({
             commit('TOGGLE_EDIT_CLIENT', state);
             commit('SET_CURRENT_CLIENT', state, payload.id)
         },
-        async GET_PROJECTS({ commit }) {
-
+        async GET_PROJECTS({ commit }, { payload }) {
+            await fetch(`http://localhost:8080/api/projects/${payload.id}`)
+                .then((res) => res.json())
+                .then((data) => {
+                    commit('SET_PROJECT_DATA', data);
+                });
+            commit('PROJECTS_LOADED');
         },
         async UPDATE_PROJECT({ commit, dispatch, state }, { payload }) {
-
+            await dispatch('GET_PROJECTS');
+            commit('TOGGLE_PROJECT', state);
+            commit('TOGGLE_EDIT_CLIENT', state);
+            commit('SET_CURRENT_CLIENT', state, payload.id)
         }
     },
     modules: {}

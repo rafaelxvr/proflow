@@ -1,6 +1,7 @@
 package dev.ravel.proflow.domain.services;
 
 import dev.ravel.proflow.infrastructure.model.Project;
+import dev.ravel.proflow.infrastructure.model.Subtask;
 import dev.ravel.proflow.infrastructure.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,11 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project getProjectById(long id) {
         return projectRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Project> getProjectsByClientId(int clientId) {
+        return projectRepository.findByClientId(clientId);
     }
 
     @Override

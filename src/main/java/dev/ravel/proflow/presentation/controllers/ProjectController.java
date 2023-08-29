@@ -2,6 +2,7 @@ package dev.ravel.proflow.presentation.controllers;
 
 import dev.ravel.proflow.domain.services.ProjectService;
 import dev.ravel.proflow.infrastructure.model.Project;
+import dev.ravel.proflow.infrastructure.model.Subtask;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,13 +34,28 @@ public class ProjectController {
         }
     }
 
-    @GetMapping("/projects/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Project> getProjectById(@PathVariable("id") long id) {
         Project result = projectService.getProjectById(id);
 
         if (result != null) {
             return ResponseEntity.status(HttpStatus.OK).body(result);
         } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @GetMapping("/clients/{clientId}")
+    public ResponseEntity<List<Project>> getSubtasksByTaskId(@PathVariable("clientId") int clientId) {
+        try {
+            List<Project> result = projectService.getProjectsByClientId(projectId);
+
+            if (result != null) {
+                return ResponseEntity.status(HttpStatus.OK).body(result);
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            }
+        } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
