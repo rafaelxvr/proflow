@@ -70,7 +70,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['editProject', 'currentProjectArray']),
+        ...mapState(['editProject', 'currentProjectArray', 'currentClientArray']),
     },
     methods: {
         ...mapMutations(['TOGGLE_PROJECT', 'TOGGLE_MODAL', 'TOGGLE_EDIT_PROJECT']),
@@ -98,7 +98,6 @@ export default {
                 })
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data)
                    this.project.id = data?.id;
                 });
 
@@ -112,8 +111,11 @@ export default {
                 id: null,
                 name: '',
                 document: '',
-                email: ''
+                email: '',
+                client: this.currentClientArray[0]
             };
+
+            console.log(payload)
 
             await fetch("http://localhost:8080/api/project/update", {
                 method: "PUT",
@@ -128,7 +130,8 @@ export default {
                         id: data.id,
                         name: data.name,
                         description: data.description,
-                        status: data.status
+                        status: data.status,
+                        client: data.client
                     };
                 });
             await this.UPDATE_PROJECT(payload);

@@ -78,28 +78,12 @@ public class Task {
         this.status = status;
     }
 
-    public long getProjectId() {
-        return projectId;
+    public Project getProject() {
+        return project;
     }
 
-    public void setProjectId(long projectId) {
-        this.projectId = projectId;
-    }
-
-    public long getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(long clientId) {
-        this.clientId = clientId;
-    }
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     @Id()
@@ -115,7 +99,7 @@ public class Task {
     private Date dueDate;
 
     private String status;
-    private long projectId;
-    private long clientId;
-    private long userId;
+    @ManyToOne
+    @JoinColumn(name = "project_id", referencedColumnName = "id")
+    private Project project;
 }

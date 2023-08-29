@@ -7,14 +7,26 @@
                   <label for="clients">Client</label>
                   <select v-model="selectedClientId" @change="selectClient">
                       <option selected>Select a Client</option>
-                      <option v-for="client in clientsList" v-bind:value="client.id" :selected="this.currentClient.id === selectedClientId" >{{ client.name }}</option>
+                      <option
+                          v-for="client in clientsList"
+                          v-bind:value="client.id"
+                          :selected="this.currentClient.id === selectedClientId"
+                      >
+                          {{ client.name }}
+                      </option>
                   </select>
               </div>
               <div v-if="currentClient.id" class="input flex flex-column">
                   <label for="clients">Projects</label>
-                  <select v-model="this.project">
+                  <select v-model="selectedProjectId" @change="selectProject">
                       <option selected>Select a Project</option>
-                      <option v-for="project in projectsList" :value="project" :key="project.id">{{ project.name }}</option>
+                      <option
+                          v-for="project in projectsList"
+                          v-bind:value="project.id"
+                          :selected="this.currentProject.id === selectedProjectId"
+                      >
+                          {{ project.name }}
+                      </option>
                   </select>
               </div>
           </div>
@@ -83,7 +95,8 @@ import { mapMutations, mapState, mapActions } from "vuex"
                 document: "",
                 email: ""
             },
-            selectedClientId : null
+            selectedClientId : null,
+            selectedProjectId : null
         }
       },
       components: {
@@ -94,7 +107,7 @@ import { mapMutations, mapState, mapActions } from "vuex"
           this.projectsList = this.projectData.flat();
       },
       methods: {
-          ...mapMutations(['TOGGLE_TASK', 'TOGGLE_CLIENT', 'TOGGLE_PROJECT']),
+          ...mapMutations(['TOGGLE_TASK', 'TOGGLE_CLIENT', 'TOGGLE_PROJECT', 'SET_CURRENT_PROJECT', 'SET_CURRENT_CLIENT']),
           ...mapActions(['GET_PROJECTS', 'GET_CLIENTS', 'GET_TASKS']),
           newTask() {
               this.TOGGLE_TASK();
@@ -112,6 +125,13 @@ import { mapMutations, mapState, mapActions } from "vuex"
               const client = this.clientsList.find(client => client.id === this.selectedClientId);
               this.currentClient = client
               await this.GET_PROJECTS({ payload: client });
+              this.SET_CURRENT_CLIENT({ payload: this.currentClient })
+          },
+          async selectProject() {
+              const project = this.projectsList.find(project => project.id === this.selectedProjectId)
+              this.currentProject = project
+              await this.GET_TASKS({ payload: project });
+              this.SET_CURRENT_PROJECT({ payload: this.currentProject })
           }
       },
       computed: {
@@ -121,7 +141,6 @@ import { mapMutations, mapState, mapActions } from "vuex"
           clientsLoaded() {
               if (this.clientsLoaded) {
                   this.currentClient = this.clientData.flat();
-                  this.GET_TASKS();
               }
           },
           projectsLoaded() {

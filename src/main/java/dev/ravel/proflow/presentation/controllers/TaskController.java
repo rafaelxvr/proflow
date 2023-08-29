@@ -1,6 +1,7 @@
 package dev.ravel.proflow.presentation.controllers;
 
 import dev.ravel.proflow.domain.services.TaskService;
+import dev.ravel.proflow.infrastructure.model.Subtask;
 import dev.ravel.proflow.infrastructure.model.Task;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +43,21 @@ public class TaskController {
                 return ResponseEntity.status(HttpStatus.OK).body(result);
             } else {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
+        } catch (Exception ex) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @GetMapping("/projects/{projectId}")
+    public ResponseEntity<List<Task>> getTasksByProjectId(@PathVariable("projectId") int projectId) {
+        try {
+            List<Task> result = taskService.getTasksByProjectId(projectId);
+
+            if (result != null) {
+                return ResponseEntity.status(HttpStatus.OK).body(result);
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
             }
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

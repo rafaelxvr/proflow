@@ -1,5 +1,6 @@
 package dev.ravel.proflow.domain.services;
 
+import dev.ravel.proflow.infrastructure.model.Project;
 import dev.ravel.proflow.infrastructure.model.Task;
 import dev.ravel.proflow.infrastructure.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,11 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task getTaskById(long id) {
         return taskRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Task> getTasksByProjectId(int projectId) {
+        return taskRepository.findByProjectId(projectId);
     }
 
     @Override

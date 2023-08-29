@@ -1,5 +1,5 @@
 <template>
-    <div v-if="tasksLoaded">
+    <div v-if="clientsLoaded">
         <div v-if="!mobile" class="app flex">
             <NavigationBar/>
             <div class="app-content flex flex-column">

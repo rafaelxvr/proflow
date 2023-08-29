@@ -99,18 +99,19 @@ export default {
                 startDate: null,
                 dueDate: null,
                 status: null,
-                projectId: null,
-                clientId: null,
-                userId: null,
+                project: null,
+                client: null
             },
             dateOptions: { year: "numeric", month: "short", day: "numeric" },
             subtaskList: [],
-            usersList: [],
             taskStartDateUnix: null,
             loading: null
         }
     },
     created() {
+        this.task.client = this.currentClientArray[0];
+        this.task.project = this.currentProjectArray[0];
+
         if (this.editTask) {
             const currentTask = this.currentTaskArray[0];
             for (const prop in currentTask) {
@@ -123,7 +124,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['editTask', 'currentTaskArray']),
+        ...mapState(['editTask', 'currentTaskArray', 'currentProjectArray', 'currentClientArray']),
     },
     methods: {
         ...mapMutations(['TOGGLE_TASK', 'TOGGLE_MODAL', 'TOGGLE_EDIT_TASK']),

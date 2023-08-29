@@ -78,9 +78,8 @@ export default createStore({
         },
     },
     actions: {
-        async GET_TASKS({ commit, state }) {
-            //to do : Load tasks by ProjectId and ClientId
-            await fetch("http://localhost:8080/api/tasks/")
+        async GET_TASKS({ commit, state }, { payload }) {
+            await fetch(`http://localhost:8080/api/tasks/projects/${payload.id}`)
                 .then((res) => res.json())
                 .then((data) => {
                     data.forEach(async record => {
@@ -120,18 +119,20 @@ export default createStore({
             commit('SET_CURRENT_CLIENT', state, payload.id)
         },
         async GET_PROJECTS({ commit, state }, { payload }) {
+            console.log(payload)
             await fetch(`http://localhost:8080/api/projects/clients/${payload.id}`)
                 .then((res) => res.json())
                 .then((data) => {
                     commit('SET_PROJECT_DATA', data);
+                    console.log(data)
                 });
             commit('PROJECTS_LOADED');
         },
         async UPDATE_PROJECT({ commit, dispatch, state }, { payload }) {
             await dispatch('GET_PROJECTS');
             commit('TOGGLE_PROJECT', state);
-            commit('TOGGLE_EDIT_CLIENT', state);
-            commit('SET_CURRENT_CLIENT', state, payload.id)
+            commit('TOGGLE_EDIT_PROJECT', state);
+            commit('SET_CURRENT_PROJECT', state, payload.id)
         }
     },
     modules: {}

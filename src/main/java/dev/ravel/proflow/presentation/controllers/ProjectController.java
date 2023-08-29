@@ -49,7 +49,7 @@ public class ProjectController {
     }
 
     @GetMapping("/clients/{clientId}")
-    public ResponseEntity<List<Project>> getSubtasksByTaskId(@PathVariable("clientId") int clientId) {
+    public ResponseEntity<List<Project>> getProjectsByClientId(@PathVariable("clientId") int clientId) {
         try {
             List<Project> result = projectService.getProjectsByClientId(clientId);
 
