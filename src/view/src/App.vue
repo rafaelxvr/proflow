@@ -44,13 +44,12 @@ import ProjectModal from "@/components/ProjectModal.vue";
             ClientModal
         },
         created() {
-          this.GET_TASKS();
           this.GET_CLIENTS();
           this.checkScreen();
           window.addEventListener("resize", this.checkScreen);
         },
         methods: {
-            ...mapActions(['GET_TASKS', 'GET_CLIENTS']),
+            ...mapActions(['GET_CLIENTS']),
             checkScreen() {
                 const windowWidth = window.innerWidth;
                 if(windowWidth <= 750) {

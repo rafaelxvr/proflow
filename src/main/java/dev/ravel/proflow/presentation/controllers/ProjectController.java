@@ -19,17 +19,17 @@ public class ProjectController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addProject(@RequestBody Project project) {
+    public ResponseEntity<Project> addProject(@RequestBody Project project) {
         try {
             Project result = projectService.addProject(project);
 
             if (result != null) {
-                return ResponseEntity.status(HttpStatus.CREATED).body("Project added successfully");
+                return ResponseEntity.status(HttpStatus.CREATED).body(result);
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to add project");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
             }
         } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error has occurred.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 

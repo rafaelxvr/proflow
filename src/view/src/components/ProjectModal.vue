@@ -98,6 +98,7 @@ export default {
                 })
                 .then(res => res.json())
                 .then(data => {
+                    console.log(data)
                    this.project.id = data?.id;
                 });
 

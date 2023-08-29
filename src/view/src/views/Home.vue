@@ -3,16 +3,18 @@
       <div class="header flex">
           <div class="left flex flex-column">
               <h1>Tasks</h1>
-              <div class="input flex flex-column">
-                  <label for="clients">Projects</label>
-                  <select v-model="this.project.name">
-                      <option v-for="project in projectData" :value="project" :key="project.name">{{ project.name }}</option>
+              <div v-if="clientsList.length > 0" class="input flex flex-column">
+                  <label for="clients">Client</label>
+                  <select v-model="selectedClientId" @change="selectClient">
+                      <option selected>Select a Client</option>
+                      <option v-for="client in clientsList" v-bind:value="client.id" :selected="this.currentClient.id === selectedClientId" >{{ client.name }}</option>
                   </select>
               </div>
-              <div class="input flex flex-column">
-                  <label for="clients">Client</label>
-                  <select v-model="client.name">
-                      <option v-for="client in clients" :value="client.name" :key="client.name">{{ client.name }}</option>
+              <div v-if="currentClient.id" class="input flex flex-column">
+                  <label for="clients">Projects</label>
+                  <select v-model="this.project">
+                      <option selected>Select a Project</option>
+                      <option v-for="project in projectsList" :value="project" :key="project.id">{{ project.name }}</option>
                   </select>
               </div>
           </div>
@@ -62,35 +64,38 @@
 
 <script>
 import Task from "@/components/Task.vue"
-import { mapMutations, mapState } from "vuex"
+import { mapMutations, mapState, mapActions } from "vuex"
   export default {
       name: "Home",
       data() {
         return {
-            projects: [],
-            clients: [],
-            client: {
-                id: null,
-                name: "",
-                documentId: "",
-                email: ""
-            },
-            project: {
+            projectsList: [],
+            clientsList: [],
+            currentProject: {
               id: null,
-              name: ""
+              name: "",
+              description: ""
             },
             filterMenu: null,
+            currentClient: {
+                id: null,
+                name: "",
+                document: "",
+                email: ""
+            },
+            selectedClientId : null
         }
       },
       components: {
           Task
       },
       created() {
-          this.clients = [this.clientData];
-          console.log(this.clients)
+          this.clientsList = this.clientData.flat();
+          this.projectsList = this.projectData.flat();
       },
       methods: {
           ...mapMutations(['TOGGLE_TASK', 'TOGGLE_CLIENT', 'TOGGLE_PROJECT']),
+          ...mapActions(['GET_PROJECTS', 'GET_CLIENTS', 'GET_TASKS']),
           newTask() {
               this.TOGGLE_TASK();
           },
@@ -102,10 +107,28 @@ import { mapMutations, mapState } from "vuex"
           },
           newProject() {
               this.TOGGLE_PROJECT();
+          },
+          async selectClient() {
+              const client = this.clientsList.find(client => client.id === this.selectedClientId);
+              this.currentClient = client
+              await this.GET_PROJECTS({ payload: client });
           }
       },
       computed: {
           ...mapState(['taskData', 'clientData', 'projectData'])
+      },
+      watch: {
+          clientsLoaded() {
+              if (this.clientsLoaded) {
+                  this.currentClient = this.clientData.flat();
+                  this.GET_TASKS();
+              }
+          },
+          projectsLoaded() {
+              if (this.projectsLoaded) {
+                  this.currentProject = this.projectData.flat();
+              }
+          }
       }
   }
 </script>

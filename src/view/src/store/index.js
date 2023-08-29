@@ -119,8 +119,8 @@ export default createStore({
             commit('TOGGLE_EDIT_CLIENT', state);
             commit('SET_CURRENT_CLIENT', state, payload.id)
         },
-        async GET_PROJECTS({ commit }, { clientId }) {
-            await fetch(`http://localhost:8080/api/projects/${clientId}`)
+        async GET_PROJECTS({ commit, state }, { payload }) {
+            await fetch(`http://localhost:8080/api/projects/clients/${payload.id}`)
                 .then((res) => res.json())
                 .then((data) => {
                     commit('SET_PROJECT_DATA', data);

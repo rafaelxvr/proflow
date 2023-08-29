@@ -22,9 +22,7 @@
                   </div>
                   <div class="input flex flex-column">
                       <label for="taskCreator">Creator</label>
-                      <select v-model="task.creatorName">
-                          <option v-for="user in usersList" :value="user" :key="user.id">{{ user }}</option>
-                      </select>
+                      <input required type="text" id="taskCreator" v-model="task.creatorName">
                   </div>
               </div>
           </div>
