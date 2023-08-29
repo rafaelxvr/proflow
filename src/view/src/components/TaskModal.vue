@@ -99,8 +99,7 @@ export default {
                 startDate: null,
                 dueDate: null,
                 status: null,
-                project: null,
-                client: null
+                project: null
             },
             dateOptions: { year: "numeric", month: "short", day: "numeric" },
             subtaskList: [],
@@ -109,8 +108,13 @@ export default {
         }
     },
     created() {
-        this.task.client = this.currentClientArray[0];
-        this.task.project = this.currentProjectArray[0];
+        const currentProject = this.currentProjectArray.flat()[0]
+        this.task.project = {
+            id: currentProject.id,
+            name: currentProject.name,
+            description: currentProject.description,
+            status: currentProject.status
+        }
 
         if (this.editTask) {
             const currentTask = this.currentTaskArray[0];

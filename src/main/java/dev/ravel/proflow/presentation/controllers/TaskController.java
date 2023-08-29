@@ -20,17 +20,17 @@ public class TaskController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity addTask(@RequestBody Task task) {
+    public ResponseEntity<Task> addTask(@RequestBody Task task) {
         try {
             Task result = taskService.addTask(task);
 
             if (result != null) {
                 return ResponseEntity.status(HttpStatus.CREATED).body(result);
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to add task");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
             }
         } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error has occurred.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 
@@ -57,7 +57,7 @@ public class TaskController {
             if (result != null) {
                 return ResponseEntity.status(HttpStatus.OK).body(result);
             } else {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
             }
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);

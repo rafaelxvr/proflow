@@ -53,13 +53,15 @@ export default {
                 id: null,
                 name: '',
                 description: '',
-                status: ''
+                status: '',
+                client: null
             },
-            currentProjectArray: [],
             loading: null
         }
     },
     created() {
+        this.project.client = this.currentClientArray[0];
+
         if (this.editProject) {
             const currentProject = this.currentProjectArray[0];
             for (const prop in currentProject) {
@@ -114,8 +116,6 @@ export default {
                 email: '',
                 client: this.currentClientArray[0]
             };
-
-            console.log(payload)
 
             await fetch("http://localhost:8080/api/project/update", {
                 method: "PUT",

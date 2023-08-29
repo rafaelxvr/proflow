@@ -50,9 +50,9 @@ export default createStore({
         CLIENTS_LOADED(state) {
             state.clientsLoaded = true;
         },
-        SET_CURRENT_CLIENT(state, payload) {
-            state.currentClientArray = state.clientData.filter(client => {
-                return client.id === parseInt(payload)
+        SET_CURRENT_CLIENT(state, { payload }) {
+            state.currentClientArray = state.clientData.flat().filter(client => {
+                return client.id === parseInt(payload.id)
             })
         },
         TOGGLE_EDIT_CLIENT(state){
@@ -68,9 +68,9 @@ export default createStore({
         PROJECTS_LOADED(state) {
             state.projectsLoaded = true;
         },
-        SET_CURRENT_PROJECT(state, payload) {
-            state.currentProjectArray = state.projectData.filter(project => {
-                return project.id === parseInt(payload)
+        SET_CURRENT_PROJECT(state, { payload }) {
+            state.currentProjectArray = state.projectData.flat().filter(project => {
+                return project.id === parseInt(payload.id)
             })
         },
         TOGGLE_EDIT_PROJECT(state){
@@ -119,12 +119,10 @@ export default createStore({
             commit('SET_CURRENT_CLIENT', state, payload.id)
         },
         async GET_PROJECTS({ commit, state }, { payload }) {
-            console.log(payload)
             await fetch(`http://localhost:8080/api/projects/clients/${payload.id}`)
                 .then((res) => res.json())
                 .then((data) => {
                     commit('SET_PROJECT_DATA', data);
-                    console.log(data)
                 });
             commit('PROJECTS_LOADED');
         },

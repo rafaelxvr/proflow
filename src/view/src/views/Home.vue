@@ -16,7 +16,7 @@
                       </option>
                   </select>
               </div>
-              <div v-if="currentClient.id" class="input flex flex-column">
+              <div v-if="this.projectsLoaded" class="input flex flex-column">
                   <label for="clients">Projects</label>
                   <select v-model="selectedProjectId" @change="selectProject">
                       <option selected>Select a Project</option>
@@ -130,22 +130,33 @@ import { mapMutations, mapState, mapActions } from "vuex"
           async selectProject() {
               const project = this.projectsList.find(project => project.id === this.selectedProjectId)
               this.currentProject = project
-              await this.GET_TASKS({ payload: project });
-              this.SET_CURRENT_PROJECT({ payload: this.currentProject })
+
+              if (this.currentProject?.id) {
+                  await this.GET_TASKS({ payload: project });
+                  this.SET_CURRENT_PROJECT({ payload: this.currentProject })
+              }
           }
       },
       computed: {
-          ...mapState(['taskData', 'clientData', 'projectData'])
+          ...mapState(['taskData', 'clientData', 'projectData', 'projectsLoaded', 'clientsLoaded'])
       },
       watch: {
-          clientsLoaded() {
-              if (this.clientsLoaded) {
-                  this.currentClient = this.clientData.flat();
+          projectsLoaded: {
+              immediate: true,
+              handler(newProjectsLoaded) {
+                  if (newProjectsLoaded) {
+                      this.projectsList = this.projectData.flat();
+                      this.currentProject = this.projectData.flat();
+                  }
               }
           },
-          projectsLoaded() {
-              if (this.projectsLoaded) {
-                  this.currentProject = this.projectData.flat();
+          clientsLoaded: {
+              immediate: true,
+              handler(newClientsLoaded) {
+                  if (newClientsLoaded) {
+                      this.clientsList = this.clientData.flat();
+                      this.currentClient = this.clientData.flat();
+                  }
               }
           }
       }
