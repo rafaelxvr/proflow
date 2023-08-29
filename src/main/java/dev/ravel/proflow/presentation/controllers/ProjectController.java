@@ -2,7 +2,6 @@ package dev.ravel.proflow.presentation.controllers;
 
 import dev.ravel.proflow.domain.services.ProjectService;
 import dev.ravel.proflow.infrastructure.model.Project;
-import dev.ravel.proflow.infrastructure.model.Subtask;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +47,7 @@ public class ProjectController {
     @GetMapping("/clients/{clientId}")
     public ResponseEntity<List<Project>> getSubtasksByTaskId(@PathVariable("clientId") int clientId) {
         try {
-            List<Project> result = projectService.getProjectsByClientId(projectId);
+            List<Project> result = projectService.getProjectsByClientId(clientId);
 
             if (result != null) {
                 return ResponseEntity.status(HttpStatus.OK).body(result);
@@ -71,7 +70,7 @@ public class ProjectController {
         }
     }
 
-    @PutMapping("/projects")
+    @PutMapping("/")
     public ResponseEntity<Project> updateProject(@RequestBody Project project) {
         try {
             Project result = projectService.updateProject(project);
@@ -86,7 +85,7 @@ public class ProjectController {
         }
     }
 
-    @DeleteMapping("/projects/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProject(@PathVariable("id") long id) {
         try {
             projectService.deleteProject(id);
