@@ -1,36 +1,36 @@
 <template>
-    <div @click="checkClick" ref="clientWrap" class="client-wrap flex flex-column">
-        <form @submit.prevent="submitForm" class="client-content">
+    <div @click="checkClick" ref="projectWrap" class="project-wrap flex flex-column">
+        <form @submit.prevent="submitForm" class="project-content">
             <LoadingScreen v-show="loading"/>
-            <h1 v-if="!editClient">New Client</h1>
-            <h1 v-else>Edit Client</h1>
+            <h1 v-if="!editProject">New Project</h1>
+            <h1 v-else>Edit Project</h1>
 
-            <div class="client-information flex flex-column">
-                <h4>Client Information</h4>
+            <div class="project-information flex flex-column">
+                <h4>Project Information</h4>
                 <div class="input flex flex-column">
-                    <label for="clientName">Client Name</label>
-                    <input required type="text" id="clientName" v-model="client.name">
+                    <label for="projectName">Project Name</label>
+                    <input required type="text" id="projectName" v-model="project.name">
                 </div>
-                <div class="client-details flex">
+                <div class="project-details flex">
                     <div class="input flex flex-column">
-                        <label for="clientDocument">Document</label>
-                        <input required type="text" id="clientDocument" v-model="client.documentId">
+                        <label for="projectDescription">Project Description</label>
+                        <input required type="text" id="projectDescription" v-model="project.description">
                     </div>
                     <div class="input flex flex-column">
-                        <label for="clientEmail">Email</label>
-                        <input required type="text" id="clientEmail" v-model="client.email">
+                        <label for="projectStatus">Project Status</label>
+                        <input required type="text" id="projectStatus" v-model="project.status">
                     </div>
                 </div>
             </div>
 
             <div class="save flex">
                 <div class="left">
-                    <button type="button" @click="closeClient" class="red">Cancel</button>
+                    <button type="button" @click="closeProject" class="red">Cancel</button>
                 </div>
                 <div class="right flex">
-                    <button v-if="deleteClient" type="submit" @click="deleteClient" class="red">Delete Client</button>
-                    <button v-if="!editClient" type="submit" @click="uploadClient" class="purple">Create Client</button>
-                    <button v-if="editClient" type="submit" @click="updateClient" class="purple">Update Client</button>
+                    <button v-if="deleteProject" type="submit" @click="deleteProject" class="red">Delete Project</button>
+                    <button v-if="!editProject" type="submit" @click="uploadProject" class="purple">Create Project</button>
+                    <button v-if="editProject" type="submit" @click="updateProject" class="purple">Update Project</button>
                 </div>
             </div>
         </form>
@@ -43,68 +43,68 @@ import { mapMutations, mapState, mapActions } from "vuex";
 import LoadingScreen from '@/components/LoadingScreen.vue'
 
 export default {
-    name: "ClientModal",
+    name: "ProjectModal",
     components: {
         LoadingScreen
     },
     data() {
         return {
-            client: {
+            project: {
                 id: null,
                 name: '',
-                documentId: '',
-                email: ''
+                description: '',
+                status: ''
             },
-            currentClientArray: [],
+            currentProjectArray: [],
             loading: null
         }
     },
     created() {
-        if (this.editClient) {
-            const currentClient = this.currentClientArray[0];
-            for (const prop in currentClient) {
-                if (currentClient.hasOwnProperty(prop)) {
-                    this.client[prop] = currentClient[prop];
+        if (this.editProject) {
+            const currentProject = this.currentProjectArray[0];
+            for (const prop in currentProject) {
+                if (currentProject.hasOwnProperty(prop)) {
+                    this.project[prop] = currentProject[prop];
                 }
             }
         }
     },
     computed: {
-        ...mapState(['editClient', 'currentClientArray']),
+        ...mapState(['editProject', 'currentProjectArray']),
     },
     methods: {
-        ...mapMutations(['TOGGLE_CLIENT', 'TOGGLE_MODAL', 'TOGGLE_EDIT_CLIENT']),
-        ...mapActions(['UPDATE_CLIENT']),
+        ...mapMutations(['TOGGLE_PROJECT', 'TOGGLE_MODAL', 'TOGGLE_EDIT_PROJECT']),
+        ...mapActions(['UPDATE_PROJECT']),
         checkClick(event) {
-          if (event.target === this.$refs.clientWrap) {
+          if (event.target === this.$refs.projectWrap) {
             this.TOGGLE_MODAL();
           }
         },
-        closeClient() {
-            this.TOGGLE_CLIENT();
-            if (this.editClient) {
-                this.TOGGLE_EDIT_CLIENT();
+        closeProject() {
+            this.TOGGLE_PROJECT();
+            if (this.editProject) {
+                this.TOGGLE_EDIT_PROJECT();
             }
         },
-        async uploadClient() {
+        async uploadProject() {
             this.loading = true;
 
-            await fetch("http://localhost:8080/api/clients/add", {
+            await fetch("http://localhost:8080/api/projects/add", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(this.client),
+                body: JSON.stringify(this.project),
                 })
                 .then(res => res.json())
                 .then(data => {
-                   this.client.id = data?.id;
+                   this.project.id = data?.id;
                 });
 
             this.loading = false;
-            this.TOGGLE_CLIENT();
+            this.TOGGLE_PROJECT();
         },
-        async updateClient() {
+        async updateProject() {
             this.loading = true;
 
             let payload = {
@@ -114,38 +114,38 @@ export default {
                 email: ''
             };
 
-            await fetch("http://localhost:8080/api/client/update", {
+            await fetch("http://localhost:8080/api/project/update", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(this.client),
+                body: JSON.stringify(this.project),
             })
                 .then(res => res.json())
                 .then(async data => {
                     payload = {
                         id: data.id,
                         name: data.name,
-                        documentId: data.documentId,
-                        email: data.email
+                        description: data.description,
+                        status: data.status
                     };
                 });
-            await this.UPDATE_CLIENT(payload);
+            await this.UPDATE_PROJECT(payload);
         },
         async submitForm() {
-            if (this.editClient) {
-                await this.updateClient()
+            if (this.editProject) {
+                await this.updateProject()
                 return;
             }
 
-            await this.uploadClient()
+            await this.uploadProject()
         }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-  .client-wrap {
+  .project-wrap {
     position: fixed;
     top: 0;
     left: 0;
@@ -160,7 +160,7 @@ export default {
       left: 90px;
     }
 
-    .client-content {
+    .project-content {
       position: relative;
       padding: 56px;
       max-width: 700px;
@@ -186,10 +186,10 @@ export default {
         margin-bottom: 24px;
       }
 
-      .client-information {
+      .project-information {
         margin-bottom: 48px;
 
-        .client-details {
+        .project-details {
           gap: 16px;
           div {
             flex: 1;

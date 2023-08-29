@@ -6,20 +6,6 @@ import jakarta.persistence.*;
 @Table(name = "Projects")
 public class Project {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String name;
-
-    @ManyToOne
-    @JoinColumn(name = "client_id")
-    private Client client;
-
-    private String status;
-
-    // Getters and setters
-
     public Long getId() {
         return id;
     }
@@ -51,4 +37,27 @@ public class Project {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    @Column(columnDefinition = "text")
+    private String description;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
+
+    private String status;
 }

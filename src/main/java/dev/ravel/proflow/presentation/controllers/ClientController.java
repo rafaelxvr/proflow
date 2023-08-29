@@ -24,17 +24,17 @@ public class ClientController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addClient(@RequestBody Client client) {
+    public ResponseEntity<Client> addClient(@RequestBody Client client) {
         try {
             var result = clientService.addClient(client);
 
             if (result != null) {
-                return ResponseEntity.status(HttpStatus.CREATED).body("Client added successfully");
+                return ResponseEntity.status(HttpStatus.CREATED).body(result);
             } else {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Failed to add client");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
             }
         } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error has occurred.");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 

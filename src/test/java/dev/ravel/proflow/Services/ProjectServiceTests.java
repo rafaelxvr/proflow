@@ -1,4 +1,4 @@
-package dev.ravel.proflow;
+package dev.ravel.proflow.Services;
 
 import dev.ravel.proflow.domain.services.ProjectServiceImpl;
 import dev.ravel.proflow.infrastructure.model.Project;

@@ -1,4 +1,4 @@
-package dev.ravel.proflow;
+package dev.ravel.proflow.Services;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

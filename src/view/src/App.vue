@@ -7,6 +7,12 @@
                 <transition name="task">
                     <TaskModal v-if="taskModal" />
                 </transition>
+                <transition name="client">
+                    <ClientModal v-if="clientModal" />
+                </transition>
+                <transition name="project">
+                    <ProjectModal v-if="projectModal" />
+                </transition>
                 <router-view />
             </div>
         </div>
@@ -20,8 +26,10 @@
 <script>
 import NavigationBar from "@/components/NavigationBar.vue";
 import TaskModal from "@/components/TaskModal.vue"
+import ClientModal from "@/components/ClientModal.vue"
 import Modal from "@/components/Modal.vue"
 import { mapState, mapActions } from "vuex"
+import ProjectModal from "@/components/ProjectModal.vue";
     export default {
         data() {
           return {
@@ -29,17 +37,20 @@ import { mapState, mapActions } from "vuex"
           }
         },
         components: {
+            ProjectModal,
             NavigationBar,
             TaskModal,
-            Modal
+            Modal,
+            ClientModal
         },
         created() {
-          this.GET_TASKS()
+          this.GET_TASKS();
+          this.GET_CLIENTS();
           this.checkScreen();
           window.addEventListener("resize", this.checkScreen);
         },
         methods: {
-            ...mapActions(['GET_TASKS']),
+            ...mapActions(['GET_TASKS', 'GET_CLIENTS']),
             checkScreen() {
                 const windowWidth = window.innerWidth;
                 if(windowWidth <= 750) {
@@ -50,7 +61,8 @@ import { mapState, mapActions } from "vuex"
             }
         },
         computed: {
-            ...mapState(['taskModal', 'modalActive', 'tasksLoaded'])
+            ...mapState(['taskModal', 'modalActive', 'tasksLoaded',
+                'clientModal', 'clientsLoaded', 'projectModal', 'projectsLoaded'])
         }
     }
 </script>

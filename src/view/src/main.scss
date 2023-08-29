@@ -42,6 +42,22 @@
   transform: translateX(-700px);
 }
 
+.client-enter-active, .client-leave-active {
+  transition: 0.8s ease all;
+}
+
+.client-enter-from, .client-leave-to {
+  transform: translateX(-700px);
+}
+
+.project-enter-active, .project-leave-active {
+  transition: 0.8s ease all;
+}
+
+.project-enter-from, .project-leave-to {
+  transform: translateX(-700px);
+}
+
 button,
 .button {
   cursor: pointer;

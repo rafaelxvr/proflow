@@ -1,4 +1,4 @@
-package dev.ravel.proflow;
+package dev.ravel.proflow.Services;
 
 import dev.ravel.proflow.domain.services.ClientServiceImpl;
 import dev.ravel.proflow.infrastructure.model.Client;

@@ -4,15 +4,15 @@
           <div class="left flex flex-column">
               <h1>Tasks</h1>
               <div class="input flex flex-column">
-                  <label for="clients">Client</label>
+                  <label for="clients">Projects</label>
                   <select v-model="this.project.name">
-                      <option v-for="project in projectList" :value="project" :key="project.name">{{ project.name }}</option>
+                      <option v-for="project in projectData" :value="project" :key="project.name">{{ project.name }}</option>
                   </select>
               </div>
               <div class="input flex flex-column">
-                  <label for="clients">Project</label>
+                  <label for="clients">Client</label>
                   <select v-model="client.name">
-                      <option v-for="client in clientList" :value="client" :key="client.name">{{ client.name }}</option>
+                      <option v-for="client in clients" :value="client.name" :key="client.name">{{ client.name }}</option>
                   </select>
               </div>
           </div>
@@ -67,35 +67,45 @@ import { mapMutations, mapState } from "vuex"
       name: "Home",
       data() {
         return {
-            project: {
-                id: null,
-                name: '',
-                status: '',
-                clientId: null
-            },
+            projects: [],
+            clients: [],
             client: {
                 id: null,
-                name: ''
+                name: "",
+                documentId: "",
+                email: ""
+            },
+            project: {
+              id: null,
+              name: ""
             },
             filterMenu: null,
-            projectList: [],
-            clientList: []
         }
       },
       components: {
           Task
       },
+      created() {
+          this.clients = [this.clientData];
+          console.log(this.clients)
+      },
       methods: {
-          ...mapMutations(['TOGGLE_TASK']),
+          ...mapMutations(['TOGGLE_TASK', 'TOGGLE_CLIENT', 'TOGGLE_PROJECT']),
           newTask() {
               this.TOGGLE_TASK();
           },
           toggleFilterMenu() {
               this.filterMenu = !this.filterMenu;
+          },
+          newClient() {
+              this.TOGGLE_CLIENT();
+          },
+          newProject() {
+              this.TOGGLE_PROJECT();
           }
       },
       computed: {
-          ...mapState(['taskData'])
+          ...mapState(['taskData', 'clientData', 'projectData'])
       }
   }
 </script>
