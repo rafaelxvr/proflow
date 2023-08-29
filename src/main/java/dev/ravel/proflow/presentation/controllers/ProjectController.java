@@ -35,11 +35,15 @@ public class ProjectController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Project> getProjectById(@PathVariable("id") long id) {
-        Project result = projectService.getProjectById(id);
+        try {
+            Project result = projectService.getProjectById(id);
 
-        if (result != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(result);
-        } else {
+            if (result != null) {
+                return ResponseEntity.status(HttpStatus.OK).body(result);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
+        } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
@@ -52,7 +56,7 @@ public class ProjectController {
             if (result != null) {
                 return ResponseEntity.status(HttpStatus.OK).body(result);
             } else {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
             }
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
@@ -61,11 +65,15 @@ public class ProjectController {
 
     @GetMapping("/")
     public ResponseEntity<List<Project>> getProjects() {
-        List<Project> result = projectService.getProjects();
+        try {
+            List<Project> result = projectService.getProjects();
 
-        if (result != null) {
-            return ResponseEntity.status(HttpStatus.OK).body(result);
-        } else {
+            if (result != null) {
+                return ResponseEntity.status(HttpStatus.OK).body(result);
+            } else {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            }
+        } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
