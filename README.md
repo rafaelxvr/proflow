@@ -12,7 +12,7 @@ Configuração do Ambiente de Desenvolvimento
 Backend (Java Spring Boot)
 
 ## Diagrama de Classes
-![image](https://github.com/rafaelxvr/proflow/assets/78372916/92d27aea-e75d-4c4d-aee3-6c813a94c54c)
+![proflow drawio](https://github.com/rafaelxvr/proflow/assets/78372916/0bd7c246-7a36-432c-b944-caaf2538856b)
 
 Para executar o backend da aplicação, siga as etapas abaixo:
 
