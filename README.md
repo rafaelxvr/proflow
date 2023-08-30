@@ -14,6 +14,10 @@ Backend (Java Spring Boot)
 ## Diagrama de Classes
 ![proflow drawio](https://github.com/rafaelxvr/proflow/assets/78372916/0bd7c246-7a36-432c-b944-caaf2538856b)
 
+Arquivo em PDF para melhor visualização:
+[proflow.drawio.pdf](https://github.com/rafaelxvr/proflow/files/12471036/proflow.drawio.pdf)
+
+
 Para executar o backend da aplicação, siga as etapas abaixo:
 
     Certifique-se de ter o Docker Engine instalado em sua máquina.
