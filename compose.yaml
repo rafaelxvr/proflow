@@ -4,6 +4,6 @@ services:
     environment:
       - 'POSTGRES_DB=proflow'
       - 'POSTGRES_PASSWORD=admin'
-      - 'POSTGRES_USER=admin'
+      - 'POSTGRES_USER=postgres'
     ports:
-      - '5432'
+      - 5432:5432

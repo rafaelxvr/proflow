@@ -25,6 +25,7 @@ Para executar o backend em Spring Boot, siga as etapas abaixo:
 
 - Certifique-se de ter o Docker Engine instalado em sua máquina.
 - Navegue para o diretório do backend.
+- No arquivo `compose.yaml` configure o usuário e senha do PostgreSQL para realizar corretamente a comunicação entre o container e o ambiente local. 
 - Execute o seguinte comando para criar e executar o contêiner do banco de dados: `docker-compose up -d`
 - Agora você pode iniciar a aplicação Spring Boot normalmente.
 
