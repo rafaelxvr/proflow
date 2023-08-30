@@ -52,18 +52,6 @@ Além disso, também inclui as dependências necessárias para linting, formata�
     prettier: Ferramenta para formatação consistente do código.
     vite: Ambiente de desenvolvimento rápido para aplicativos Vue.js.
 
-Desenvolvimento e Contribuição
-
-Este aplicativo foi desenvolvido usando Java Spring Boot para o backend e Vue.js para o frontend. Você pode contribuir para o projeto, reportando problemas ou enviando solicitações de pull.
-
-Para fazer alterações no código, siga estas etapas:
-
-    Faça um fork deste repositório.
-    Crie um novo branch para suas alterações: git checkout -b feature/nova-feature.
-    Faça as alterações desejadas e teste-as localmente.
-    Envie um pull request para o repositório principal.
-
-Lembre-se de manter os padrões de linting e formatação para manter o código limpo e coeso.
 Licença
 
 Este projeto é licenciado sob a MIT License.
