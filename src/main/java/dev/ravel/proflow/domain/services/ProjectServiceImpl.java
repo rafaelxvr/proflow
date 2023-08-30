@@ -1,7 +1,6 @@
 package dev.ravel.proflow.domain.services;
 
 import dev.ravel.proflow.infrastructure.model.Project;
-import dev.ravel.proflow.infrastructure.model.Subtask;
 import dev.ravel.proflow.infrastructure.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -43,6 +43,13 @@ export default createStore({
         DELETE_TASK(state, payload) {
             state.taskData.filter((task) => task.id !== payload);
         },
+        UPDATE_TASK_STATUS(state, payload) {
+            state.projectData.forEach(task => {
+                if (task.id === payload.id) {
+                    task.status = payload.status
+                }
+            })
+        },
         //CLIENT MUTATIONS
         TOGGLE_CLIENT(state) {
             state.clientModal = !state.clientModal;
@@ -78,6 +85,9 @@ export default createStore({
         },
         TOGGLE_EDIT_PROJECT(state){
             state.editProject = !state.editProject;
+        },
+        DELETE_PROJECT(state, payload) {
+            state.projectData.filter((project) => project.id !== payload);
         }
     },
     actions: {
@@ -106,7 +116,12 @@ export default createStore({
             commit('SET_CURRENT_TASK', state, payload.id)
         },
         async DELETE_TASK({ commit }, payload) {
-            await fetch(`http://localhost:8080/api/tasks/${payload}`)
+            await fetch(`http://localhost:8080/api/tasks/${payload}`,{
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
                 .then((res) => res.json())
                 .then(() => {
                     commit('DELETE_TASK');
@@ -139,6 +154,18 @@ export default createStore({
             commit('TOGGLE_PROJECT', state);
             commit('TOGGLE_EDIT_PROJECT', state);
             commit('SET_CURRENT_PROJECT', state, payload.id)
+        },
+        async DELETE_PROJECT({ commit }, payload) {
+            await fetch(`http://localhost:8080/api/projects/${payload}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            })
+                .then((res) => res.json())
+                .then(() => {
+                    commit('DELETE_TASK');
+                });
         }
     },
     modules: {}

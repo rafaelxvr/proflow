@@ -19,14 +19,14 @@
           </div>
           <div class="right flex">
               <div @click="toggleFilterMenu" class="filter flex">
-                  <span>Filter by Status</span>
+                  <span>Filter by Status <span v-if="filteredProject">{{ filteredProject }}</span></span>
                   <img src="@/assets/icon-arrow-down.svg" alt="">
                   <ul v-show="filterMenu" class="filter-menu">
-                      <li>Backlog</li>
-                      <li>Ready for Dev</li>
-                      <li>In Progress</li>
-                      <li>Done</li>
-                      <li>Clear Filter</li>
+                      <li @click="filteredProjects">Backlog</li>
+                      <li @click="filteredProjects">Ready for Dev</li>
+                      <li @click="filteredProjects">In Progress</li>
+                      <li @click="filteredProjects">Done</li>
+                      <li @click="filteredProjects">Clear Filter</li>
                   </ul>
               </div>
               <div @click="newClient" class="button flex">
@@ -67,6 +67,7 @@ import { mapMutations, mapState, mapActions } from "vuex";
       data() {
         return {
             filterMenu: null,
+            filteredProject: null,
             projectsList: [],
             selectedProjectId : null,
             clientsList: [],
@@ -97,6 +98,9 @@ import { mapMutations, mapState, mapActions } from "vuex";
           ...mapActions(['GET_PROJECTS', 'GET_CLIENTS', 'GET_TASKS']),
           toggleFilterMenu() {
               this.filterMenu = !this.filterMenu;
+          },
+          filteredProjects(e) {
+
           },
           newClient() {
               this.TOGGLE_CLIENT();

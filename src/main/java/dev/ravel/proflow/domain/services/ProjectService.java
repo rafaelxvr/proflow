@@ -1,8 +1,6 @@
 package dev.ravel.proflow.domain.services;
 
 import dev.ravel.proflow.infrastructure.model.Project;
-import dev.ravel.proflow.infrastructure.model.Subtask;
-
 import java.util.List;
 
 public interface ProjectService {

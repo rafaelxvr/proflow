@@ -37,21 +37,6 @@
             </div>
             <button @click="toggleEditProject(currentProject.id)" class="dark-purple">Edit</button>
             <button @click="deleteProject(currentProject.id)" class="red">Delete</button>
-            <button
-              v-if="currentProject.status === 'backlog'"
-              @click="updateStatusToReady(currentProject.id)"
-              class="green"
-            >
-              Mark as Ready to Dev
-            </button>
-            <button
-              v-if="currentProject.status !== 'backlog'"
-              @click="updateStatusToBacklog(currentProject.id)"
-              class="orange"
-            >
-              Return to Backlog
-            </button>
-
           </div>
       </div>
       <div class="project-details flex flex-column">
@@ -109,7 +94,10 @@ export default {
         },
         async deleteProject(id) {
           await this.DELETE_PROJECT(id)
-            this.$router.push({name: 'Home'})
+         this.$router.push({name: 'home'})
+        },
+        updateStatus(id, status) {
+
         }
     },
     computed: {
