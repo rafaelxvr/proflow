@@ -1,6 +1,6 @@
 <template>
   <div v-if="currentProject" class="project-view container">
-      <router-link class="nav-link flex" :to="{ name: 'Project' }">
+      <router-link class="nav-link flex" :to="{ name: 'home' }">
           <img src="@/assets/icon-arrow-left.svg" alt=""> Go Back
       </router-link>
       <div class="header flex">
