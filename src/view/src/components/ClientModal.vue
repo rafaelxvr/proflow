@@ -28,9 +28,9 @@
                     <button type="button" @click="closeClient" class="red">Cancel</button>
                 </div>
                 <div class="right flex">
-                    <button v-if="deleteClient" type="submit" @click="deleteClient" class="red">Delete Client</button>
-                    <button v-if="!editClient" type="submit" @click="uploadClient" class="purple">Create Client</button>
-                    <button v-if="editClient" type="submit" @click="updateClient" class="purple">Update Client</button>
+                    <button v-if="deleteClient" type="submit" @click.once="deleteClient" class="red">Delete Client</button>
+                    <button v-if="!editClient" type="submit" @click.once="uploadClient" class="purple">Create Client</button>
+                    <button v-if="editClient" type="submit" @click.once="updateClient" class="purple">Update Client</button>
                 </div>
             </div>
         </form>

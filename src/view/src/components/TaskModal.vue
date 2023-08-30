@@ -67,9 +67,9 @@
                   <button type="button" @click="closeTask" class="red">Cancel</button>
               </div>
               <div class="right flex">
-                  <button v-if="!editTask" type="submit" @click="saveDraft" class="dark-purple">Save Draft</button>
-                  <button v-if="!editTask" type="submit" @click="publishTask" class="purple">Create Task</button>
-                  <button v-if="editTask" type="submit" @click="updateTask" class="purple">Update Task</button>
+                  <button v-if="!editTask" type="submit" @click.once="saveDraft" class="dark-purple">Save Draft</button>
+                  <button v-if="!editTask" type="submit" @click.once="publishTask" class="purple">Create Task</button>
+                  <button v-if="editTask" type="submit" @click.once="updateTask" class="purple">Update Task</button>
               </div>
           </div>
       </form>

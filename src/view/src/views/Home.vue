@@ -113,15 +113,6 @@ import { mapMutations, mapState, mapActions } from "vuex";
               this.currentClient = client
               await this.GET_PROJECTS({ payload: client });
               this.SET_CURRENT_CLIENT({ payload: this.currentClient })
-          },
-          async selectProject() {
-              const project = this.projectsList.find(project => project.id === this.selectedProjectId)
-              this.currentProject = project
-
-              if (this.currentProject?.id) {
-                  await this.GET_TASKS({ payload: project });
-                  this.SET_CURRENT_PROJECT({ payload: this.currentProject })
-              }
           }
       },
       computed: {

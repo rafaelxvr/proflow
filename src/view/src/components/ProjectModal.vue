@@ -28,9 +28,9 @@
                     <button type="button" @click="closeProject" class="red">Cancel</button>
                 </div>
                 <div class="right flex">
-                    <button v-if="deleteProject" type="submit" @click="deleteProject" class="red">Delete Project</button>
-                    <button v-if="!editProject" type="submit" @click="uploadProject" class="purple">Create Project</button>
-                    <button v-if="editProject" type="submit" @click="updateProject" class="purple">Update Project</button>
+                    <button v-if="deleteProject" type="submit" @click.once="deleteProject" class="red">Delete Project</button>
+                    <button v-if="!editProject" type="submit" @click.once="uploadProject" class="purple">Create Project</button>
+                    <button v-if="editProject" type="submit" @click.once="updateProject" class="purple">Update Project</button>
                 </div>
             </div>
         </form>

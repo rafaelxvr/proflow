@@ -8,7 +8,6 @@ import org.hibernate.annotations.OnDeleteAction;
 import java.util.Date;
 
 @Entity
-@Table(name="Tasks")
 @Data
 public class Task {
 
