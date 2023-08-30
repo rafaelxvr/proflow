@@ -2,7 +2,7 @@
   <div class="home container">
       <div class="header flex">
           <div class="left flex flex-column">
-              <h1>Tasks</h1>
+              <h1>Projects</h1>
               <div v-if="clientsList.length > 0" class="input flex flex-column">
                   <label for="clients">Client</label>
                   <select v-model="selectedClientId" @change="selectClient">
@@ -62,21 +62,25 @@
               </div>
           </div>
       </div>
+      <div class="projects" v-if="this.projectsLoaded">
+          <Project v-for="(project, index) in this.projectsList" :project="project" :key="index" />
+      </div>
       <div class="tasks" v-if="taskData.length > 0">
           <Task v-for="(task, index) in taskData" :task="task" :key="index" />
       </div>
       <div v-else class="empty flex flex-column">
         <img src="@/assets/illustration-empty.svg" alt="">
         <h3>There is nothing here.</h3>
-        <p>Create a new task by clicking the New Task button and get started</p>
+        <p>Select a project, create a new task by clicking the New Task button and get started</p>
       </div>
   </div>
 </template>
 
 
 <script>
-import Task from "@/components/Task.vue"
-import { mapMutations, mapState, mapActions } from "vuex"
+import Task from "@/components/Task.vue";
+import Project from "@/components/Project.vue";
+import { mapMutations, mapState, mapActions } from "vuex";
   export default {
       name: "Home",
       data() {
@@ -100,6 +104,7 @@ import { mapMutations, mapState, mapActions } from "vuex"
         }
       },
       components: {
+          Project,
           Task
       },
       created() {

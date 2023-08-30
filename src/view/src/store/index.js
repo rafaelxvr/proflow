@@ -40,6 +40,9 @@ export default createStore({
         TOGGLE_EDIT_TASK(state){
             state.editTask = !state.editTask;
         },
+        DELETE_TASK(state, payload) {
+            state.taskData.filter((task) => task.id !== payload);
+        },
         //CLIENT MUTATIONS
         TOGGLE_CLIENT(state) {
             state.clientModal = !state.clientModal;
@@ -68,17 +71,18 @@ export default createStore({
         PROJECTS_LOADED(state) {
             state.projectsLoaded = true;
         },
-        SET_CURRENT_PROJECT(state, { payload }) {
+        SET_CURRENT_PROJECT(state, payload) {
             state.currentProjectArray = state.projectData.flat().filter(project => {
                 return project.id === parseInt(payload.id)
             })
         },
         TOGGLE_EDIT_PROJECT(state){
             state.editProject = !state.editProject;
-        },
+        }
     },
     actions: {
         async GET_TASKS({ commit, state }, { payload }) {
+            console.log(payload)
             await fetch(`http://localhost:8080/api/tasks/projects/${payload.id}`)
                 .then((res) => res.json())
                 .then((data) => {
@@ -101,8 +105,12 @@ export default createStore({
             commit('TOGGLE_EDIT_TASK', state);
             commit('SET_CURRENT_TASK', state, payload.id)
         },
-        async DELETE_TASK(state, payload) {
-
+        async DELETE_TASK({ commit }, payload) {
+            await fetch(`http://localhost:8080/api/tasks/${payload}`)
+                .then((res) => res.json())
+                .then(() => {
+                    commit('DELETE_TASK');
+                });
         },
         async GET_CLIENTS({ commit }) {
             await fetch("http://localhost:8080/api/clients/")

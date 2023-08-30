@@ -1,35 +1,35 @@
 <template>
-  <div v-if="currentTask" class="task-view container">
-      <router-link class="nav-link flex" :to="{ name: 'Task' }">
+  <div v-if="currentProject" class="project-view container">
+      <router-link class="nav-link flex" :to="{ name: 'Project' }">
           <img src="@/assets/icon-arrow-left.svg" alt=""> Go Back
       </router-link>
       <div class="header flex">
           <div class="left flex">
             <div class="status-button flex" :class="{
-            backlog : currentTask.status === 'backlog',
-            ready : currentTask.status === 'ready' ?? true,
-            progress : currentTask.status === 'in progress',
-            done : currentTask.status === 'done' }"
+            backlog : currentProject.status === 'backlog',
+            ready : currentProject.status === 'ready' ?? true,
+            progress : currentProject.status === 'in progress',
+            done : currentProject.status === 'done' }"
               >
-                <span v-if="currentTask.status === 'backlog'">Backlog</span>
-                <span v-if="currentTask.status === 'ready'">Ready For Dev</span>
-                <span v-if="currentTask.status === 'in progress'">In Progress</span>
-                <span v-if="currentTask.status === 'done'">Done</span>
+                <span v-if="currentProject.status === 'backlog'">Backlog</span>
+                <span v-if="currentProject.status === 'ready'">Ready For Dev</span>
+                <span v-if="currentProject.status === 'in progress'">In Progress</span>
+                <span v-if="currentProject.status === 'done'">Done</span>
             </div>
           </div>
           <div class="right flex">
-            <button @click="toggleEditTask(currentTask.id)" class="dark-purple">Edit</button>
-            <button @click="deleteTask(currentTask.id)" class="red">Delete</button>
+            <button @click="toggleEditProject(currentProject.id)" class="dark-purple">Edit</button>
+            <button @click="deleteProject(currentProject.id)" class="red">Delete</button>
             <button
-              v-if="currentTask.status === 'backlog'"
-              @click="updateStatusToReady(currentTask.id)"
+              v-if="currentProject.status === 'backlog'"
+              @click="updateStatusToReady(currentProject.id)"
               class="green"
             >
               Mark as Ready to Dev
             </button>
             <button
-              v-if="currentTask.status !== 'backlog'"
-              @click="updateStatusToBacklog(currentTask.id)"
+              v-if="currentProject.status !== 'backlog'"
+              @click="updateStatusToBacklog(currentProject.id)"
               class="orange"
             >
               Return to Backlog
@@ -37,41 +37,20 @@
 
           </div>
       </div>
-      <div class="task-details flex flex-column">
+      <div class="project-details flex flex-column">
           <div class="top flex">
               <div class="left flex">
-                <p>{{ currentTask.epicName }}<span>#</span></p>
-                <p>{{ currentTask.id }}</p>
+                <p>{{ currentProject.name }}<span>#</span></p>
+                <p>{{ currentProject.id }}</p>
               </div>
 
               <div class="right flex flex-column">
-                  <p>{{ currentTask.description }}</p>
+                  <p>{{ currentProject.description }}</p>
               </div>
           </div>
           <div class="middle flex flex-column">
-              <h4>Start Date</h4>
-              <p>{{ formattedStartDate }}</p>
-              <h4>Due Date</h4>
-              <p>{{ formattedDueDate }}</p>
-              <div class="task-creator flex flex-column">
-                  <h4>Task Creator</h4>
-                  <p>{{ currentTask.creatorName }}</p>
-              </div>
-              <div class="task-sector flex flex-column">
-                  <h4>Sector</h4>
-                  <p>{{ currentTask.sectorName }}</p>
-              </div>
-          </div>
-          <div class="bottom flex flex-column">
-              <div class="task-subtasks">
-                  <div class="heading flex">
-                      <p>Subtask Name</p>
-                      <p>Subtask Description</p>
-                  </div>
-                  <div v-for="(subtask, index) in currentTask.subtaskList" :key="index" class="item flex">
-                      <p>{{ subtask.name }}</p>
-                      <p>{{ subtask.description }}</p>
-                  </div>
+              <div class="tasks" v-if="taskData.length > 0">
+                  <Task v-for="(task, index) in taskData" :task="task" :key="index" />
               </div>
           </div>
       </div>
@@ -80,48 +59,38 @@
 
 <script>
 import { mapMutations, mapState, mapActions } from "vuex";
+import Task from "@/components/Task.vue";
 
 export default {
-    name: "TaskView",
-    data() {
-        return {
-          currentTask: null,
-          formattedStartDate: null,
-          formattedDueDate: null,
-          dateOptions: { year: "numeric", month: "short", day: "numeric" }
-        }
-    },
-    created() {
-      this.getCurrentTask()
-      this.formatDates()
+    name: "ProjectView",
+    components: { Task },
+    async created() {
+      await this.getCurrentProject();
     },
     methods: {
-        ...mapMutations(['SET_CURRENT_TASK', 'TOGGLE_EDIT_TASK', 'TOGGLE_TASK']),
-        ...mapActions(['DELETE_TASK']),
-        getCurrentTask() {
-            this.SET_CURRENT_TASK(this.$route.params.taskId)
-            this.currentTask = this.currentTaskArray[0];
+        ...mapMutations(['SET_CURRENT_PROJECT', 'TOGGLE_EDIT_PROJECT', 'TOGGLE_PROJECT']),
+        ...mapActions(['DELETE_PROJECT', 'GET_TASKS']),
+        async getCurrentProject() {
+            this.SET_CURRENT_PROJECT({ id: this.$route.params.projectId })
+            this.currentProject = this.currentProjectArray[0];
+            await this.GET_TASKS({ payload: this.currentProject });
         },
-        toggleEditTask() {
-          this.TOGGLE_EDIT_TASK();
-          this.TOGGLE_TASK();
+        toggleEditProject() {
+          this.TOGGLE_EDIT_PROJECT();
+          this.TOGGLE_PROJECT();
         },
-        formatDates() {
-            this.formattedStartDate = new Date(this.currentTask.startDate).toLocaleDateString("en-us", this.dateOptions)
-            this.formattedDueDate = new Date(this.currentTask.dueDate).toLocaleDateString("en-us", this.dateOptions)
-        },
-        async deleteTask(id) {
-          await this.DELETE_TASK(id)
+        async deleteProject(id) {
+          await this.DELETE_PROJECT(id)
             this.$router.push({name: 'Home'})
         }
     },
     computed: {
-        ...mapState(['currentTaskArray', 'editTask'])
+        ...mapState(['currentProjectArray', 'editProject', 'taskData'])
     },
     watch: {
-        editTask() {
-            if(!this.editTask) {
-                this.currentTask = this.currentTaskArray[0];
+        editProject() {
+            if(!this.editProject) {
+                this.currentProject = this.currentProjectArray[0];
             }
         }
     }
@@ -129,7 +98,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .task-view {
+  .project-view {
     .nav-link {
       margin-bottom: 32px;
       align-items: center;
@@ -142,7 +111,7 @@ export default {
       }
     }
 
-    .header, .task-details {
+    .header, .project-details {
       background-color: #1e2139;
       border-radius: 20px;
     }
@@ -171,7 +140,7 @@ export default {
       }
     }
 
-    .task-details {
+    .project-details {
       padding: 48px;
       margin-top: 24px;
 
@@ -220,11 +189,11 @@ export default {
           font-size: 16px
         }
 
-        .task-creator, .task-sector {
+        .project-creator, .project-sector {
           flex: 1;
         }
 
-        .task-sector {
+        .project-sector {
           h4 {
             margin-top: 32px;
           }
@@ -234,7 +203,7 @@ export default {
           }
         }
 
-        .task-creator {
+        .project-creator {
           p {
             font-size: 12px;
           }
@@ -245,7 +214,7 @@ export default {
       .bottom {
         margin-top: 50px;
 
-        .task-subtasks {
+        .project-subprojects {
           padding: 32px;
           border-radius: 20px 20px 0 0;
           background-color: #252945;
