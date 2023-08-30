@@ -16,19 +16,6 @@
                       </option>
                   </select>
               </div>
-              <div v-if="this.projectsLoaded" class="input flex flex-column">
-                  <label for="clients">Projects</label>
-                  <select v-model="selectedProjectId" @change="selectProject">
-                      <option selected>Select a Project</option>
-                      <option
-                          v-for="project in projectsList"
-                          v-bind:value="project.id"
-                          :selected="this.currentProject.id === selectedProjectId"
-                      >
-                          {{ project.name }}
-                      </option>
-                  </select>
-              </div>
           </div>
           <div class="right flex">
               <div @click="toggleFilterMenu" class="filter flex">
@@ -53,12 +40,6 @@
                       <img src="@/assets/icon-plus.svg" alt="">
                   </div>
                   <span>New Project</span>
-              </div>
-              <div @click="newTask" class="button flex">
-                  <div class="inner-button flex">
-                      <img src="@/assets/icon-plus.svg" alt="">
-                  </div>
-                  <span>New Task</span>
               </div>
           </div>
       </div>
@@ -85,22 +66,22 @@ import { mapMutations, mapState, mapActions } from "vuex";
       name: "Home",
       data() {
         return {
+            filterMenu: null,
             projectsList: [],
+            selectedProjectId : null,
             clientsList: [],
+            selectedClientId : null,
             currentProject: {
               id: null,
               name: "",
               description: ""
             },
-            filterMenu: null,
             currentClient: {
                 id: null,
                 name: "",
                 document: "",
                 email: ""
             },
-            selectedClientId : null,
-            selectedProjectId : null
         }
       },
       components: {
@@ -114,9 +95,6 @@ import { mapMutations, mapState, mapActions } from "vuex";
       methods: {
           ...mapMutations(['TOGGLE_TASK', 'TOGGLE_CLIENT', 'TOGGLE_PROJECT', 'SET_CURRENT_PROJECT', 'SET_CURRENT_CLIENT']),
           ...mapActions(['GET_PROJECTS', 'GET_CLIENTS', 'GET_TASKS']),
-          newTask() {
-              this.TOGGLE_TASK();
-          },
           toggleFilterMenu() {
               this.filterMenu = !this.filterMenu;
           },
@@ -191,38 +169,6 @@ import { mapMutations, mapState, mapActions } from "vuex";
 
         span {
           font-size: 12px;
-        }
-      }
-
-      .filter {
-        position: relative;
-        margin-right: 40px;
-        cursor: pointer;
-
-        img {
-          margin-left: 12px;
-          width: 9px;
-          height: 5px;
-        }
-
-        .filter-menu {
-          width: 120px;
-          position: absolute;
-          top: 25px;
-          list-style: none;
-          background-color: #1e2139;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-
-          li {
-            cursor: pointer;
-            font-size: 12px;
-            padding: 10px 20px;
-
-            &.hover {
-              color: #1e2139;
-              background-color: white;
-            }
-          }
         }
       }
 

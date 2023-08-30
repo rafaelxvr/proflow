@@ -18,6 +18,23 @@
             </div>
           </div>
           <div class="right flex">
+            <div @click="toggleFilterMenu" class="filter flex">
+                <span>Filter by Status</span>
+                <img src="@/assets/icon-arrow-down.svg" alt="">
+                <ul v-show="filterMenu" class="filter-menu">
+                    <li>Backlog</li>
+                    <li>Ready for Dev</li>
+                    <li>In Progress</li>
+                    <li>Done</li>
+                    <li>Clear Filter</li>
+                </ul>
+            </div>
+            <div @click="newTask" class="button flex">
+                <div class="inner-button flex">
+                    <img src="@/assets/icon-plus.svg" alt="">
+                </div>
+                <span>New Task</span>
+            </div>
             <button @click="toggleEditProject(currentProject.id)" class="dark-purple">Edit</button>
             <button @click="deleteProject(currentProject.id)" class="red">Delete</button>
             <button
@@ -64,12 +81,23 @@ import Task from "@/components/Task.vue";
 export default {
     name: "ProjectView",
     components: { Task },
+    data() {
+      return {
+          filterMenu: null
+      }
+    },
     async created() {
       await this.getCurrentProject();
     },
     methods: {
-        ...mapMutations(['SET_CURRENT_PROJECT', 'TOGGLE_EDIT_PROJECT', 'TOGGLE_PROJECT']),
+        ...mapMutations(['SET_CURRENT_PROJECT', 'TOGGLE_EDIT_PROJECT', 'TOGGLE_PROJECT', 'TOGGLE_TASK']),
         ...mapActions(['DELETE_PROJECT', 'GET_TASKS']),
+        toggleFilterMenu() {
+            this.filterMenu = !this.filterMenu;
+        },
+        newTask() {
+            this.TOGGLE_TASK();
+        },
         async getCurrentProject() {
             this.SET_CURRENT_PROJECT({ id: this.$route.params.projectId })
             this.currentProject = this.currentProjectArray[0];
@@ -99,6 +127,7 @@ export default {
 
 <style lang="scss" scoped>
   .project-view {
+
     .nav-link {
       margin-bottom: 32px;
       align-items: center;
@@ -115,6 +144,37 @@ export default {
       background-color: #1e2139;
       border-radius: 20px;
     }
+
+    .button {
+      padding: 8px 10px;
+      background-color: #7c5dfa;
+      border-radius: 40px;
+
+      .inner-button {
+        margin-right: 8px;
+        border-radius: 50%;
+        padding: 8px;
+        align-items: center;
+        justify-content: center;
+        background-color: white;
+
+        img {
+          width: 10px;
+          height: 10px;
+        }
+      }
+    }
+
+    .button,
+    .filter {
+      align-items: center;
+      color: white;
+
+      span {
+        font-size: 12px;
+      }
+    }
+
 
     .header {
       align-items: center;
