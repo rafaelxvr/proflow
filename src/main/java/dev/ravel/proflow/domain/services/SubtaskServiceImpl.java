@@ -11,7 +11,6 @@ import java.util.List;
 public class SubtaskServiceImpl implements SubtaskService {
     private final SubtaskRepository subtaskRepository;
 
-    @Autowired
     public SubtaskServiceImpl(SubtaskRepository subtaskRepository) {
         this.subtaskRepository = subtaskRepository;
     }

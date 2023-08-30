@@ -17,6 +17,6 @@ public class Subtask {
     @Column(nullable = false, columnDefinition = "text")
     private String description;
 
-    @ManyToOne
+    @ManyToOne()
     private Task task;
 }

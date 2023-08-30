@@ -1,6 +1,6 @@
 <template>
   <div v-if="currentTask" class="task-view container">
-      <router-link class="nav-link flex" :to="{ name: 'Task' }">
+      <router-link class="nav-link flex" :to="{ name: 'home' }">
           <img src="@/assets/icon-arrow-left.svg" alt=""> Go Back
       </router-link>
       <div class="header flex">
@@ -20,21 +20,6 @@
           <div class="right flex">
             <button @click="toggleEditTask(currentTask.id)" class="dark-purple">Edit</button>
             <button @click="deleteTask(currentTask.id)" class="red">Delete</button>
-            <button
-              v-if="currentTask.status === 'backlog'"
-              @click="updateStatusToReady(currentTask.id)"
-              class="green"
-            >
-              Mark as Ready to Dev
-            </button>
-            <button
-              v-if="currentTask.status !== 'backlog'"
-              @click="updateStatusToBacklog(currentTask.id)"
-              class="orange"
-            >
-              Return to Backlog
-            </button>
-
           </div>
       </div>
       <div class="task-details flex flex-column">

@@ -41,4 +41,8 @@ public class Task {
 
     @ManyToOne
     private Project project;
+
+    @ManyToOne(cascade = { CascadeType.REMOVE, CascadeType.ALL })
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Subtask subtask;
 }

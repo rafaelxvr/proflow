@@ -116,6 +116,7 @@ export default createStore({
             commit('SET_CURRENT_TASK', state, payload.id)
         },
         async DELETE_TASK({ commit }, payload) {
+            console.log(payload)
             await fetch(`http://localhost:8080/api/tasks/${payload}`,{
                 method: "DELETE",
                 headers: {
@@ -164,7 +165,7 @@ export default createStore({
             })
                 .then((res) => res.json())
                 .then(() => {
-                    commit('DELETE_TASK');
+                    commit('DELETE_PROJECT');
                 });
         }
     },
