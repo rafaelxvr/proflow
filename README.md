@@ -11,6 +11,9 @@ Funcionalidades Principais
 Configuração do Ambiente de Desenvolvimento
 Backend (Java Spring Boot)
 
+## Diagrama de Classes
+![image](https://github.com/rafaelxvr/proflow/assets/78372916/92d27aea-e75d-4c4d-aee3-6c813a94c54c)
+
 Para executar o backend da aplicação, siga as etapas abaixo:
 
     Certifique-se de ter o Docker Engine instalado em sua máquina.
