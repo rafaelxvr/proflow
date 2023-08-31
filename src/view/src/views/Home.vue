@@ -3,13 +3,14 @@
       <div class="header flex">
           <div class="left flex flex-column">
               <h1>Projects</h1>
-              <div v-if="clientsList.length > 0" class="input flex flex-column">
+              <div v-if="this.clientsLoaded" class="input flex flex-column">
                   <label for="clients">Client</label>
-                  <select v-model="selectedClientId" @change="selectClient">
+                  <select v-model="selectedClientId" @change="selectClient" :key="selectedClientId">
                       <option selected>Select a Client</option>
                       <option
-                          v-for="client in clientsList"
+                          v-for="client in this.clientData"
                           v-bind:value="client.id"
+                          :key="client.id"
                           :selected="this.currentClient.id === selectedClientId"
                       >
                           {{ client.name }}
@@ -44,15 +45,12 @@
           </div>
       </div>
       <div class="projects" v-if="this.projectsLoaded">
-          <Project v-for="(project, index) in this.projectsList" :project="project" :key="index" />
-      </div>
-      <div class="tasks" v-if="taskData.length > 0">
-          <Task v-for="(task, index) in taskData" :task="task" :key="index" />
+          <Project v-for="(project, index) in this.projectData" :project="project" :key="index" />
       </div>
       <div v-else class="empty flex flex-column">
-        <img src="@/assets/illustration-empty.svg" alt="">
-        <h3>There is nothing here.</h3>
-        <p>Select a project, create a new task by clicking the New Task button and get started</p>
+          <img src="@/assets/illustration-empty.svg" alt="">
+          <h3>There is nothing here.</h3>
+          <p>Select a project, create a new task by clicking the New Task button and get started</p>
       </div>
   </div>
 </template>
@@ -68,9 +66,7 @@ import { mapMutations, mapState, mapActions } from "vuex";
         return {
             filterMenu: null,
             filteredProject: null,
-            projectsList: [],
             selectedProjectId : null,
-            clientsList: [],
             selectedClientId : null,
             currentProject: {
               id: null,
@@ -90,8 +86,6 @@ import { mapMutations, mapState, mapActions } from "vuex";
           Task
       },
       created() {
-          this.clientsList = this.clientData.flat();
-          this.projectsList = this.projectData.flat();
       },
       methods: {
           ...mapMutations(['TOGGLE_TASK', 'TOGGLE_CLIENT', 'TOGGLE_PROJECT', 'SET_CURRENT_PROJECT', 'SET_CURRENT_CLIENT']),
@@ -109,7 +103,7 @@ import { mapMutations, mapState, mapActions } from "vuex";
               this.TOGGLE_PROJECT();
           },
           async selectClient() {
-              const client = this.clientsList.find(client => client.id === this.selectedClientId);
+              const client = this.clientData.find(client => client.id === this.selectedClientId);
               this.currentClient = client
               await this.GET_PROJECTS({ payload: client });
               this.SET_CURRENT_CLIENT({ payload: this.currentClient })
@@ -123,8 +117,7 @@ import { mapMutations, mapState, mapActions } from "vuex";
               immediate: true,
               handler(newProjectsLoaded) {
                   if (newProjectsLoaded) {
-                      this.projectsList = this.projectData.flat();
-                      this.currentProject = this.projectData.flat();
+                      this.currentProject = this.projectData;
                   }
               }
           },
@@ -132,8 +125,7 @@ import { mapMutations, mapState, mapActions } from "vuex";
               immediate: true,
               handler(newClientsLoaded) {
                   if (newClientsLoaded) {
-                      this.clientsList = this.clientData.flat();
-                      this.currentClient = this.clientData.flat();
+                      this.currentClient = this.clientData;
                   }
               }
           }

@@ -92,10 +92,10 @@ export default createStore({
     },
     actions: {
         async GET_TASKS({ commit, state }, { payload }) {
-            console.log(payload)
             await fetch(`http://localhost:8080/api/tasks/projects/${payload.id}`)
                 .then((res) => res.json())
                 .then((data) => {
+                    state.taskData = []
                     data.forEach(async record => {
                         if (!state.taskData.some(task => record.id === task.id)) {
                             await fetch(`http://localhost:8080/api/subtasks/tasks/${record.id}`)
@@ -116,7 +116,6 @@ export default createStore({
             commit('SET_CURRENT_TASK', state, payload.id)
         },
         async DELETE_TASK({ commit }, payload) {
-            console.log(payload)
             await fetch(`http://localhost:8080/api/tasks/${payload}`,{
                 method: "DELETE",
                 headers: {
@@ -132,7 +131,9 @@ export default createStore({
             await fetch("http://localhost:8080/api/clients/")
                 .then((res) => res.json())
                 .then((data) => {
-                    commit('SET_CLIENT_DATA', data);
+                    data.forEach(client => {
+                        commit('SET_CLIENT_DATA', client);
+                    })
                 });
             commit('CLIENTS_LOADED');
         },
@@ -146,7 +147,10 @@ export default createStore({
             await fetch(`http://localhost:8080/api/projects/clients/${payload.id}`)
                 .then((res) => res.json())
                 .then((data) => {
-                    commit('SET_PROJECT_DATA', data);
+                    state.projectData = [];
+                    data.forEach(project =>
+                        commit('SET_PROJECT_DATA', project)
+                    )
                 });
             commit('PROJECTS_LOADED');
         },

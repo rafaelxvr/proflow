@@ -72,11 +72,11 @@ export default {
         }
     },
     computed: {
-        ...mapState(['editProject', 'currentProjectArray', 'currentClientArray']),
+        ...mapState(['editProject', 'currentProjectArray', 'currentClientArray', 'projectData']),
     },
     methods: {
-        ...mapMutations(['TOGGLE_PROJECT', 'TOGGLE_MODAL', 'TOGGLE_EDIT_PROJECT']),
-        ...mapActions(['UPDATE_PROJECT']),
+        ...mapMutations(['TOGGLE_PROJECT', 'TOGGLE_MODAL', 'TOGGLE_EDIT_PROJECT', 'SET_CURRENT_CLIENT']),
+        ...mapActions(['UPDATE_PROJECT', 'GET_PROJECTS']),
         checkClick(event) {
           if (event.target === this.$refs.projectWrap) {
             this.TOGGLE_MODAL();
