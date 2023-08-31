@@ -167,9 +167,8 @@ export default createStore({
                     "Content-Type": "application/json",
                 }
             })
-                .then((res) => res.json())
                 .then(() => {
-                    commit('DELETE_PROJECT');
+                    commit('DELETE_PROJECT', payload);
                 });
         }
     },

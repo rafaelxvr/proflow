@@ -28,7 +28,6 @@
                     <button type="button" @click="closeProject" class="red">Cancel</button>
                 </div>
                 <div class="right flex">
-                    <button v-if="deleteProject" type="submit" v-on:@click.once="deleteProject" class="red">Delete Project</button>
                     <button v-if="!editProject" type="submit" v-on:@click.once="uploadProject" class="purple">Create Project</button>
                     <button v-if="editProject" type="submit" v-on:@click.once="updateProject" class="purple">Update Project</button>
                 </div>
@@ -75,7 +74,7 @@ export default {
         ...mapState(['editProject', 'currentProjectArray', 'currentClientArray', 'projectData']),
     },
     methods: {
-        ...mapMutations(['TOGGLE_PROJECT', 'TOGGLE_MODAL', 'TOGGLE_EDIT_PROJECT', 'SET_CURRENT_CLIENT']),
+        ...mapMutations(['TOGGLE_PROJECT', 'TOGGLE_MODAL', 'TOGGLE_EDIT_PROJECT']),
         ...mapActions(['UPDATE_PROJECT', 'GET_PROJECTS']),
         checkClick(event) {
           if (event.target === this.$refs.projectWrap) {
@@ -102,6 +101,8 @@ export default {
                 .then(data => {
                    this.project.id = data?.id;
                 });
+
+            await this.GET_PROJECTS({ payload: this.project.client });
 
             this.loading = false;
             this.TOGGLE_PROJECT();

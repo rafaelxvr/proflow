@@ -76,7 +76,7 @@ export default {
     },
     methods: {
         ...mapMutations(['SET_CURRENT_PROJECT', 'TOGGLE_EDIT_PROJECT', 'TOGGLE_PROJECT', 'TOGGLE_TASK']),
-        ...mapActions(['DELETE_PROJECT', 'GET_TASKS']),
+        ...mapActions(['DELETE_PROJECT', 'GET_TASKS', 'GET_PROJECTS']),
         toggleFilterMenu() {
             this.filterMenu = !this.filterMenu;
         },
@@ -93,8 +93,9 @@ export default {
           this.TOGGLE_PROJECT();
         },
         async deleteProject(id) {
-          await this.DELETE_PROJECT(id)
-         this.$router.push({name: 'home'})
+            await this.DELETE_PROJECT(id)
+            await this.GET_PROJECTS({ payload: this.currentProject.client })
+            this.$router.push({name: 'home'})
         },
         updateStatus(id, status) {
 
