@@ -132,7 +132,7 @@ export default {
     },
     methods: {
         ...mapMutations(['TOGGLE_TASK', 'TOGGLE_MODAL', 'TOGGLE_EDIT_TASK']),
-        ...mapActions(['UPDATE_TASK']),
+        ...mapActions(['UPDATE_TASK', 'GET_TASKS']),
         checkClick(event) {
           if (event.target === this.$refs.taskWrap) {
             this.TOGGLE_MODAL();
@@ -180,6 +180,7 @@ export default {
                    this.task.id = data?.id;
                 });
 
+            await this.GET_TASKS({ payload: this.task.project });
             await this.uploadSubTasks()
 
             this.loading = false;
