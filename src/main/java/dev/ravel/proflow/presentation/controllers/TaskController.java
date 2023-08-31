@@ -94,10 +94,10 @@ public class TaskController {
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTask(@PathVariable("id") long id) {
+    @DeleteMapping("/{taskId}")
+    public ResponseEntity<String> deleteTask(@PathVariable("taskId") int taskId) {
         try {
-            taskService.deleteTask(id);
+            taskService.deleteTask(taskId);
             return ResponseEntity.status(HttpStatus.ACCEPTED).body("Successfully deleted a task.");
         } catch (Exception ex) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error has occurred.");

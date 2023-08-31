@@ -2,6 +2,8 @@ package dev.ravel.proflow.infrastructure.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Data
@@ -17,6 +19,6 @@ public class Subtask {
     @Column(nullable = false, columnDefinition = "text")
     private String description;
 
-    @ManyToOne()
+    @ManyToOne
     private Task task;
 }

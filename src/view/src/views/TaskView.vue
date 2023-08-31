@@ -1,6 +1,6 @@
 <template>
   <div v-if="currentTask" class="task-view container">
-      <router-link class="nav-link flex" :to="{ name: 'home' }">
+      <router-link class="nav-link flex" :to="{ name: 'Project' }">
           <img src="@/assets/icon-arrow-left.svg" alt=""> Go Back
       </router-link>
       <div class="header flex">
@@ -97,7 +97,7 @@ export default {
         },
         async deleteTask(id) {
           await this.DELETE_TASK(id)
-            this.$router.push({name: 'Home'})
+            this.$router.push({name: 'Project'})
         }
     },
     computed: {

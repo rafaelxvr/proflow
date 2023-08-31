@@ -122,9 +122,8 @@ export default createStore({
                     "Content-Type": "application/json",
                 },
             })
-                .then((res) => res.json())
                 .then(() => {
-                    commit('DELETE_TASK');
+                    commit('DELETE_TASK', payload);
                 });
         },
         async GET_CLIENTS({ commit }) {
