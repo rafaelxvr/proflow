@@ -89,7 +89,7 @@ class TaskControllerTests {
 
     @Test
     void testDeleteTask() {
-        long taskId = 1L;
+        int taskId = 1;
         ResponseEntity<String> expectedResponse = ResponseEntity.status(HttpStatus.ACCEPTED).body("Successfully deleted a task.");
         doNothing().when(taskService).deleteTask(taskId);
 

@@ -33,8 +33,6 @@ export default createStore({
             state.tasksLoaded = true;
         },
         SET_CURRENT_TASK(state, payload) {
-            console.log(state.taskData)
-            console.log(payload)
             state.currentTaskArray = state.taskData.filter(task => {
                 return task.id === parseInt(payload)
             })
@@ -140,7 +138,6 @@ export default createStore({
         },
         async UPDATE_TASK({ dispatch, commit, state }, { payload }) {
             await dispatch('GET_TASKS', { payload: payload.project })
-            console.log(state)
             commit('TOGGLE_TASK', state);
             commit('TOGGLE_EDIT_TASK', state);
             commit('SET_CURRENT_TASK', payload.id);
