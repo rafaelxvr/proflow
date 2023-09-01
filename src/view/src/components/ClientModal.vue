@@ -28,9 +28,6 @@
           <button type="button" @click="closeClient" class="red">Cancel</button>
         </div>
         <div class="right flex">
-          <button v-if="deleteClient" type="submit" @click.once="deleteClient" class="red">
-            Delete Client
-          </button>
           <button v-if="!editClient" type="submit" v-on:@click.once="uploadClient" class="purple">
             Create Client
           </button>
@@ -60,7 +57,6 @@ export default {
         documentId: '',
         email: ''
       },
-      currentClientArray: [],
       loading: null
     }
   },
@@ -120,7 +116,7 @@ export default {
         email: ''
       }
 
-      await fetch('http://localhost:8080/api/client/update', {
+      await fetch('http://localhost:8080/api/clients/update', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json'
@@ -136,7 +132,8 @@ export default {
             email: data.email
           }
         })
-      await this.UPDATE_CLIENT(payload)
+
+      await this.UPDATE_CLIENT({ payload: payload })
     },
     async submitForm() {
       if (this.editClient) {

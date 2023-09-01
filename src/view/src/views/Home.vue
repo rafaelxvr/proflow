@@ -32,14 +32,26 @@
             <li @click="filteredProjects">Clear Filter</li>
           </ul>
         </div>
-        <div @click="newClient" class="button flex">
+        <div @click="deleteClient(currentClient.id)" class="button flex red">
+          <div class="inner-button flex red">
+            <img src="@/assets/icon-delete.svg" alt="" />
+          </div>
+          <span>Delete Client</span>
+        </div>
+        <div @click="toggleEditClient()" class="button flex dark-purple">
+          <div class="inner-button flex red">
+            <img src="@/assets/icon-arrow-down.svg" alt="" />
+          </div>
+          <span>Edit Client</span>
+        </div>
+        <div @click="newClient" class="button flex green">
           <div class="inner-button flex">
             <img src="@/assets/icon-plus.svg" alt="" />
           </div>
           <span>New Client</span>
         </div>
-        <div @click="newProject" class="button flex">
-          <div class="inner-button flex">
+        <div @click="newProject" class="button flex purple">
+          <div class="inner-button flex orange">
             <img src="@/assets/icon-plus.svg" alt="" />
           </div>
           <span>New Project</span>
@@ -91,9 +103,10 @@ export default {
       'TOGGLE_CLIENT',
       'TOGGLE_PROJECT',
       'SET_CURRENT_PROJECT',
-      'SET_CURRENT_CLIENT'
+      'SET_CURRENT_CLIENT',
+      'TOGGLE_EDIT_CLIENT'
     ]),
-    ...mapActions(['GET_PROJECTS', 'GET_TASKS']),
+    ...mapActions(['GET_PROJECTS', 'GET_TASKS', 'UPDATE_CLIENT', 'DELETE_CLIENT']),
     toggleFilterMenu() {
       this.filterMenu = !this.filterMenu
     },
@@ -108,6 +121,13 @@ export default {
     newClient() {
       this.TOGGLE_CLIENT()
     },
+    toggleEditClient() {
+      this.TOGGLE_EDIT_CLIENT()
+      this.TOGGLE_CLIENT()
+    },
+    async deleteClient(id) {
+      await this.DELETE_CLIENT(id)
+    },
     newProject() {
       this.TOGGLE_PROJECT()
     },
@@ -119,7 +139,14 @@ export default {
     }
   },
   computed: {
-    ...mapState(['taskData', 'clientData', 'projectData', 'projectsLoaded', 'clientsLoaded']),
+    ...mapState([
+      'taskData',
+      'clientData',
+      'projectData',
+      'projectsLoaded',
+      'clientsLoaded',
+      'editClient'
+    ]),
     filteredData() {
       const filteredData = this.projectData.filter((project) => {
         return this.filteredProject === project.status
@@ -177,7 +204,6 @@ export default {
 
     .button {
       padding: 8px 10px;
-      background-color: #7c5dfa;
       border-radius: 40px;
 
       .inner-button {

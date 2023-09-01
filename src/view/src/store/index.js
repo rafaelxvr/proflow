@@ -61,12 +61,15 @@ export default createStore({
             state.clientsLoaded = true;
         },
         SET_CURRENT_CLIENT(state, { payload }) {
-            state.currentClientArray = state.clientData.flat().filter(client => {
+            state.currentClientArray = state.clientData.filter(client => {
                 return client.id === parseInt(payload.id)
             })
         },
-        TOGGLE_EDIT_CLIENT(state){
+        TOGGLE_EDIT_CLIENT(state) {
             state.editClient = !state.editClient;
+        },
+        DELETE_CLIENT(state, payload) {
+            state.clientData.filter((client) => client.id !== payload);
         },
         // PROJECT MUTATIONS
         TOGGLE_PROJECT(state) {
@@ -134,6 +137,7 @@ export default createStore({
                     commit('DELETE_TASK', payload);
                 });
         },
+        
         async GET_CLIENTS({ commit }) {
             await fetch("http://localhost:8080/api/clients/")
                 .then((res) => res.json())
@@ -146,7 +150,18 @@ export default createStore({
             await dispatch('GET_CLIENTS');
             commit('TOGGLE_CLIENT', state);
             commit('TOGGLE_EDIT_CLIENT', state);
-            commit('SET_CURRENT_CLIENT', state, payload.id)
+            commit('SET_CURRENT_CLIENT', { payload: payload })
+        },
+        async DELETE_CLIENT({ commit }, payload) {
+            await fetch(`http://localhost:8080/api/clients/${payload}`,{
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+                .then(() => {
+                    commit('DELETE_CLIENT', payload);
+                });
         },
         async GET_PROJECTS({ commit, state }, { payload }) {
             await fetch(`http://localhost:8080/api/projects/clients/${payload.id}`)

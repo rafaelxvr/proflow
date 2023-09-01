@@ -1,10 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .app {
@@ -34,27 +34,33 @@
   }
 }
 
-.task-enter-active, .task-leave-active {
+.task-enter-active,
+.task-leave-active {
   transition: 0.8s ease all;
 }
 
-.task-enter-from, .task-leave-to {
+.task-enter-from,
+.task-leave-to {
   transform: translateX(-700px);
 }
 
-.client-enter-active, .client-leave-active {
+.client-enter-active,
+.client-leave-active {
   transition: 0.8s ease all;
 }
 
-.client-enter-from, .client-leave-to {
+.client-enter-from,
+.client-leave-to {
   transform: translateX(-700px);
 }
 
-.project-enter-active, .project-leave-active {
+.project-enter-active,
+.project-leave-active {
   transition: 0.8s ease all;
 }
 
-.project-enter-from, .project-leave-to {
+.project-enter-from,
+.project-leave-to {
   transform: translateX(-700px);
 }
 
@@ -115,7 +121,7 @@ button,
 
 .status-button {
   &::before {
-    content: "";
+    content: '';
     width: 10px;
     height: 10px;
     border-radius: 50%;
@@ -154,7 +160,9 @@ button,
     top: 25px;
     list-style: none;
     background-color: #1e2139;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
 
     li {
       cursor: pointer;
