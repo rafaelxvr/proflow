@@ -55,7 +55,7 @@ export default createStore({
             state.clientModal = !state.clientModal;
         },
         SET_CLIENT_DATA(state, payload) {
-            state.clientData.push(payload);
+            state.clientData = payload;
         },
         CLIENTS_LOADED(state) {
             state.clientsLoaded = true;
@@ -92,25 +92,6 @@ export default createStore({
     },
     actions: {
         async GET_TASKS({ commit, state }, { payload }) {
-            /*state.taskData = []
-            let records = []
-
-            await fetch(`http://localhost:8080/api/tasks/projects/${payload.id}`)
-                .then((res) => res.json())
-                .then((data) => {
-                    data.forEach(async record => {
-                        if (!state.taskData.some(task => record.id === task.id)) {
-                            await fetch(`http://localhost:8080/api/subtasks/tasks/${record.id}`)
-                                .then(res => res.json())
-                                .then(subtasks => {
-                                    record.subtaskList = subtasks.map(subtask => ({ id: subtask.id, name: subtask.name, description: subtask.description }));
-                                })
-                        }
-                    })
-                });
-            commit('SET_TASK_DATA', records);
-            commit('TASKS_LOADED');*/
-
             state.taskData = [];
         
             const taskDataResponse = await fetch(`http://localhost:8080/api/tasks/projects/${payload.id}`);
@@ -157,9 +138,7 @@ export default createStore({
             await fetch("http://localhost:8080/api/clients/")
                 .then((res) => res.json())
                 .then((data) => {
-                    data.forEach(client => {
-                        commit('SET_CLIENT_DATA', client);
-                    })
+                    commit('SET_CLIENT_DATA', data);
                 });
             commit('CLIENTS_LOADED');
         },

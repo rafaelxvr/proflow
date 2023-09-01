@@ -93,7 +93,7 @@ export default {
       'SET_CURRENT_PROJECT',
       'SET_CURRENT_CLIENT'
     ]),
-    ...mapActions(['GET_PROJECTS', 'GET_CLIENTS', 'GET_TASKS']),
+    ...mapActions(['GET_PROJECTS', 'GET_TASKS']),
     toggleFilterMenu() {
       this.filterMenu = !this.filterMenu
     },
