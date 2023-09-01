@@ -21,6 +21,17 @@
         </div>
       </div>
       <div class="right flex">
+        <div @click="toggleFilterMenu" class="filter flex">
+          <span>Filter by Status</span>
+          <img src="@/assets/icon-arrow-down.svg" alt="" />
+          <ul v-show="filterMenu" class="filter-menu">
+            <li>Backlog</li>
+            <li>Ready for Dev</li>
+            <li>In Progress</li>
+            <li>Done</li>
+            <li>Clear Filter</li>
+          </ul>
+        </div>
         <button @click="toggleEditTask(currentTask.id)" class="dark-purple">Edit</button>
         <button @click="deleteTask(currentTask.id)" class="red">Delete</button>
       </div>
@@ -75,6 +86,7 @@ export default {
   data() {
     return {
       currentTask: null,
+      filterMenu: null,
       formattedStartDate: null,
       formattedDueDate: null,
       dateOptions: { year: 'numeric', month: 'short', day: 'numeric' }
@@ -94,6 +106,9 @@ export default {
     toggleEditTask() {
       this.TOGGLE_EDIT_TASK()
       this.TOGGLE_TASK()
+    },
+    toggleFilterMenu() {
+      this.filterMenu = !this.filterMenu
     },
     formatDates() {
       this.formattedStartDate = new Date(this.currentTask.startDate).toLocaleDateString(
@@ -160,6 +175,16 @@ export default {
     .right {
       flex: 1;
       justify-content: flex-end;
+
+      .button,
+      .filter {
+        align-items: center;
+        color: white;
+
+        span {
+          font-size: 12px;
+        }
+      }
 
       button {
         color: white;

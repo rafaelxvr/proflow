@@ -1,7 +1,6 @@
 package dev.ravel.proflow.presentation.controllers;
 
 import dev.ravel.proflow.domain.services.TaskService;
-import dev.ravel.proflow.infrastructure.model.Subtask;
 import dev.ravel.proflow.infrastructure.model.Task;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
