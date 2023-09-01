@@ -8,16 +8,16 @@
         <div
           class="status-button flex"
           :class="{
-            backlog: currentProject.status === 'backlog',
-            ready: currentProject.status === 'ready' ?? true,
-            progress: currentProject.status === 'in progress',
-            done: currentProject.status === 'done'
+            backlog: currentProject.status === 'Backlog',
+            ready: currentProject.status === 'Ready For Dev',
+            progress: currentProject.status === 'In Progress',
+            done: currentProject.status === 'Done'
           }"
         >
-          <span v-if="currentProject.status === 'backlog'">Backlog</span>
-          <span v-if="currentProject.status === 'ready'">Ready For Dev</span>
-          <span v-if="currentProject.status === 'in progress'">In Progress</span>
-          <span v-if="currentProject.status === 'done'">Done</span>
+          <span v-if="currentProject.status === 'Backlog'">Backlog</span>
+          <span v-if="currentProject.status === 'Ready For Dev'">Ready For Dev</span>
+          <span v-if="currentProject.status === 'In Progress'">In Progress</span>
+          <span v-if="currentProject.status === 'Done'">Done</span>
         </div>
       </div>
       <div class="right flex">
@@ -25,11 +25,11 @@
           <span>Filter by Status</span>
           <img src="@/assets/icon-arrow-down.svg" alt="" />
           <ul v-show="filterMenu" class="filter-menu">
-            <li>Backlog</li>
-            <li>Ready for Dev</li>
-            <li>In Progress</li>
-            <li>Done</li>
-            <li>Clear Filter</li>
+            <li @click="filteredTasks">Backlog</li>
+            <li @click="filteredTasks">Ready for Dev</li>
+            <li @click="filteredTasks">In Progress</li>
+            <li @click="filteredTasks">Done</li>
+            <li @click="filteredTasks">Clear Filter</li>
           </ul>
         </div>
         <div @click="newTask" class="button flex">
@@ -55,7 +55,7 @@
       </div>
       <div class="middle flex flex-column">
         <div class="tasks" v-if="taskData.length > 0">
-          <Task v-for="(task, index) in taskData" :task="task" :key="index" />
+          <Task v-for="(task, index) in filteredData" :task="task" :key="index" />
         </div>
       </div>
     </div>
@@ -72,6 +72,7 @@ export default {
   data() {
     return {
       filterMenu: null,
+      filteredTask: null,
       currentProject: null
     }
   },
@@ -89,6 +90,14 @@ export default {
     toggleFilterMenu() {
       this.filterMenu = !this.filterMenu
     },
+    filteredTasks(event) {
+      if (event.target.innerText === 'Clear Filter') {
+        this.filteredTask = null
+        return
+      }
+
+      this.filteredTask = event.target.innerText
+    },
     newTask() {
       this.TOGGLE_TASK()
     },
@@ -105,11 +114,17 @@ export default {
       await this.DELETE_PROJECT(id)
       await this.GET_PROJECTS({ payload: this.currentProject.client })
       this.$router.push({ name: 'home' })
-    },
-    updateStatus(id, status) {}
+    }
   },
   computed: {
-    ...mapState(['currentProjectArray', 'editProject', 'taskData'])
+    ...mapState(['currentProjectArray', 'editProject', 'taskData']),
+    filteredData() {
+      const filteredData = this.taskData.filter((project) => {
+        return this.filteredTask === project.status
+      })
+
+      return filteredData.length > 0 ? filteredData : this.taskData
+    }
   },
   watch: {
     editProject() {

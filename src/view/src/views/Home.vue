@@ -26,7 +26,7 @@
           <img src="@/assets/icon-arrow-down.svg" alt="" />
           <ul v-show="filterMenu" class="filter-menu">
             <li @click="filteredProjects">Backlog</li>
-            <li @click="filteredProjects">Ready for Dev</li>
+            <li @click="filteredProjects">Ready For Dev</li>
             <li @click="filteredProjects">In Progress</li>
             <li @click="filteredProjects">Done</li>
             <li @click="filteredProjects">Clear Filter</li>

@@ -10,16 +10,16 @@
       <div
         class="status-button flex"
         :class="{
-          backlog: task.status === 'backlog',
-          ready: task.status === 'ready',
-          progress: task.status === 'in progress',
-          done: task.status === 'done'
+          backlog: task.status === 'Backlog',
+          ready: task.status === 'Ready For Dev',
+          progress: task.status === 'In Progress',
+          done: task.status === 'Done'
         }"
       >
-        <span v-if="task.status === 'backlog'">Backlog</span>
-        <span v-if="task.status === 'ready'">Ready For Dev</span>
-        <span v-if="task.status === 'in progress'">In Progress</span>
-        <span v-if="task.status === 'done'">Done</span>
+        <span v-if="task.status === 'Backlog'">Backlog</span>
+        <span v-if="task.status === 'Ready For Dev'">Ready For Dev</span>
+        <span v-if="task.status === 'In Progress'">In Progress</span>
+        <span v-if="task.status === 'Done'">Done</span>
       </div>
       <div class="icon">
         <img src="@/assets/icon-arrow-right.svg" alt="" />

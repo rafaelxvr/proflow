@@ -9,13 +9,13 @@
         class="status-button flex"
         :class="{
           backlog: project.status === 'Backlog',
-          ready: project.status === 'Ready for Dev',
+          ready: project.status === 'Ready For Dev',
           progress: project.status === 'In Progress',
           done: project.status === 'Done'
         }"
       >
         <span v-if="project.status === 'Backlog'">Backlog</span>
-        <span v-if="project.status === 'Ready for Dev'">Ready For Dev</span>
+        <span v-if="project.status === 'Ready For Dev'">Ready For Dev</span>
         <span v-if="project.status === 'In Progress'">In Progress</span>
         <span v-if="project.status === 'Done'">Done</span>
       </div>

@@ -8,30 +8,19 @@
         <div
           class="status-button flex"
           :class="{
-            backlog: currentTask.status === 'backlog',
-            ready: currentTask.status === 'ready',
-            progress: currentTask.status === 'in progress',
-            done: currentTask.status === 'done'
+            backlog: currentTask.status === 'Backlog',
+            ready: currentTask.status === 'Ready For Dev',
+            progress: currentTask.status === 'In Progress',
+            done: currentTask.status === 'Done'
           }"
         >
-          <span v-if="currentTask.status === 'backlog'">Backlog</span>
-          <span v-if="currentTask.status === 'ready'">Ready For Dev</span>
-          <span v-if="currentTask.status === 'in progress'">In Progress</span>
-          <span v-if="currentTask.status === 'done'">Done</span>
+          <span v-if="currentTask.status === 'Backlog'">Backlog</span>
+          <span v-if="currentTask.status === 'Ready For Dev'">Ready For Dev</span>
+          <span v-if="currentTask.status === 'In Progress'">In Progress</span>
+          <span v-if="currentTask.status === 'Done'">Done</span>
         </div>
       </div>
       <div class="right flex">
-        <div @click="toggleFilterMenu" class="filter flex">
-          <span>Filter by Status</span>
-          <img src="@/assets/icon-arrow-down.svg" alt="" />
-          <ul v-show="filterMenu" class="filter-menu">
-            <li>Backlog</li>
-            <li>Ready for Dev</li>
-            <li>In Progress</li>
-            <li>Done</li>
-            <li>Clear Filter</li>
-          </ul>
-        </div>
         <button @click="toggleEditTask(currentTask.id)" class="dark-purple">Edit</button>
         <button @click="deleteTask(currentTask.id)" class="red">Delete</button>
       </div>
