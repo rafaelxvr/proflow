@@ -41,7 +41,7 @@ export default createStore({
             state.editTask = !state.editTask;
         },
         DELETE_TASK(state, payload) {
-            state.taskData.filter((task) => task.id !== payload);
+            state.taskData = state.taskData.filter((task) => task.id !== payload);
         },
         UPDATE_TASK_STATUS(state, payload) {
             state.projectData.forEach(task => {
@@ -69,7 +69,7 @@ export default createStore({
             state.editClient = !state.editClient;
         },
         DELETE_CLIENT(state, payload) {
-            state.clientData.filter((client) => client.id !== payload);
+            state.clientData = state.clientData.filter((client) => client.id !== payload);
         },
         // PROJECT MUTATIONS
         TOGGLE_PROJECT(state) {
@@ -90,7 +90,7 @@ export default createStore({
             state.editProject = !state.editProject;
         },
         DELETE_PROJECT(state, payload) {
-            state.projectData.filter((project) => project.id !== payload);
+            state.projectData = state.projectData.filter((project) => project.id !== payload);
         }
     },
     actions: {
