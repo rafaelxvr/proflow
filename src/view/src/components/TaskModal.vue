@@ -73,7 +73,7 @@
           <button v-if="!editTask" type="submit" v-on:@click.once="publishTask" class="purple">
             Create Task
           </button>
-          <button v-if="editTask" type="submit" v-on:@click.once="updateTask" class="purple">
+          <button v-if="editTask" type="submit" v-on:@click.once="publishTask" class="purple">
             Update Task
           </button>
         </div>
@@ -137,7 +137,7 @@ export default {
     ...mapState(['editTask', 'currentTaskArray', 'currentProjectArray', 'currentClientArray'])
   },
   methods: {
-    ...mapMutations(['TOGGLE_TASK', 'TOGGLE_MODAL', 'TOGGLE_EDIT_TASK']),
+    ...mapMutations(['TOGGLE_TASK', 'TOGGLE_MODAL', 'TOGGLE_EDIT_TASK', 'SET_CURRENT_TASK']),
     ...mapActions(['UPDATE_TASK', 'GET_TASKS']),
     checkClick(event) {
       if (event.target === this.$refs.taskWrap) {
@@ -259,6 +259,7 @@ export default {
         })
 
       payload.subtaskList = await this.updateSubtask(payload)
+
       await this.UPDATE_TASK({ payload })
     },
     async updateSubtask(updatedTask) {

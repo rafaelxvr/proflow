@@ -87,14 +87,13 @@ export default {
   methods: {
     ...mapMutations(['SET_CURRENT_TASK', 'TOGGLE_EDIT_TASK', 'TOGGLE_TASK']),
     ...mapActions(['DELETE_TASK']),
-    getCurrentTask() {
+    async getCurrentTask() {
       this.SET_CURRENT_TASK(this.$route.params.taskId)
       this.currentTask = this.currentTaskArray[0]
     },
     toggleEditTask() {
       this.TOGGLE_EDIT_TASK()
       this.TOGGLE_TASK()
-      console.log(this.currentTask)
     },
     formatDates() {
       this.formattedStartDate = new Date(this.currentTask.startDate).toLocaleDateString(
@@ -116,10 +115,8 @@ export default {
   },
   watch: {
     editTask() {
-      console.log(this.currentTask)
       if (!this.editTask) {
         this.currentTask = this.currentTaskArray[0]
-        console.log(this.currentTaskArray)
       }
     }
   }

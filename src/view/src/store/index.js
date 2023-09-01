@@ -27,14 +27,15 @@ export default createStore({
             state.taskModal = !state.taskModal;
         },
         SET_TASK_DATA(state, payload) {
-            state.taskData.push(payload);
+            state.taskData = payload;
         },
         TASKS_LOADED(state) {
             state.tasksLoaded = true;
         },
         SET_CURRENT_TASK(state, payload) {
+            console.log(state.taskData)
+            console.log(payload)
             state.currentTaskArray = state.taskData.filter(task => {
-                console.log(task)
                 return task.id === parseInt(payload)
             })
         },
@@ -93,10 +94,12 @@ export default createStore({
     },
     actions: {
         async GET_TASKS({ commit, state }, { payload }) {
+            /*state.taskData = []
+            let records = []
+
             await fetch(`http://localhost:8080/api/tasks/projects/${payload.id}`)
                 .then((res) => res.json())
                 .then((data) => {
-                    state.taskData = []
                     data.forEach(async record => {
                         if (!state.taskData.some(task => record.id === task.id)) {
                             await fetch(`http://localhost:8080/api/subtasks/tasks/${record.id}`)
@@ -104,14 +107,40 @@ export default createStore({
                                 .then(subtasks => {
                                     record.subtaskList = subtasks.map(subtask => ({ id: subtask.id, name: subtask.name, description: subtask.description }));
                                 })
-                            commit('SET_TASK_DATA', record);
                         }
                     })
-                    commit('TASKS_LOADED');
                 });
+            commit('SET_TASK_DATA', records);
+            commit('TASKS_LOADED');*/
+
+            state.taskData = [];
+        
+            const taskDataResponse = await fetch(`http://localhost:8080/api/tasks/projects/${payload.id}`);
+            const taskData = await taskDataResponse.json();
+        
+            const subtaskPromises = taskData.map(async (record) => {
+                if (!state.taskData.some((task) => record.id === task.id)) {
+                    const subtasksResponse = await fetch(`http://localhost:8080/api/subtasks/tasks/${record.id}`);
+                    const subtasks = await subtasksResponse.json();
+        
+                    record.subtaskList = subtasks.map((subtask) => ({
+                        id: subtask.id,
+                        name: subtask.name,
+                        description: subtask.description,
+                    }));
+        
+                    return record;
+                }
+            });
+        
+            const records = await Promise.all(subtaskPromises);
+        
+            commit('SET_TASK_DATA', records);
+            commit('TASKS_LOADED');
         },
-        async UPDATE_TASK({ commit, dispatch, state }, { payload }) {
-            await dispatch('GET_TASKS', { payload : payload.project });
+        async UPDATE_TASK({ dispatch, commit, state }, { payload }) {
+            await dispatch('GET_TASKS', { payload: payload.project })
+            console.log(state)
             commit('TOGGLE_TASK', state);
             commit('TOGGLE_EDIT_TASK', state);
             commit('SET_CURRENT_TASK', payload.id);
