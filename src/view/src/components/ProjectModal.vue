@@ -118,7 +118,7 @@ export default {
                 client: this.currentClientArray[0]
             };
 
-            await fetch("http://localhost:8080/api/project/update", {
+            await fetch("http://localhost:8080/api/projects/", {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
@@ -135,7 +135,8 @@ export default {
                         client: data.client
                     };
                 });
-            await this.UPDATE_PROJECT(payload);
+
+            await this.UPDATE_PROJECT({ payload: payload });
         },
         async submitForm() {
             if (this.editProject) {

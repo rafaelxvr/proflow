@@ -68,7 +68,8 @@ export default {
     components: { Task },
     data() {
       return {
-          filterMenu: null
+          filterMenu: null,
+          currentProject: null
       }
     },
     async created() {

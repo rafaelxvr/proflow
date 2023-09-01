@@ -34,6 +34,7 @@ export default createStore({
         },
         SET_CURRENT_TASK(state, payload) {
             state.currentTaskArray = state.taskData.filter(task => {
+                console.log(task)
                 return task.id === parseInt(payload)
             })
         },
@@ -110,10 +111,10 @@ export default createStore({
                 });
         },
         async UPDATE_TASK({ commit, dispatch, state }, { payload }) {
-            await dispatch('GET_TASKS');
+            await dispatch('GET_TASKS', { payload : payload.project });
             commit('TOGGLE_TASK', state);
             commit('TOGGLE_EDIT_TASK', state);
-            commit('SET_CURRENT_TASK', state, payload.id)
+            commit('SET_CURRENT_TASK', payload.id);
         },
         async DELETE_TASK({ commit }, payload) {
             await fetch(`http://localhost:8080/api/tasks/${payload}`,{
@@ -154,10 +155,10 @@ export default createStore({
             commit('PROJECTS_LOADED');
         },
         async UPDATE_PROJECT({ commit, dispatch, state }, { payload }) {
-            await dispatch('GET_PROJECTS');
+            await dispatch('GET_PROJECTS', { payload: payload.client });
             commit('TOGGLE_PROJECT', state);
             commit('TOGGLE_EDIT_PROJECT', state);
-            commit('SET_CURRENT_PROJECT', state, payload.id)
+            commit('SET_CURRENT_PROJECT', payload)
         },
         async DELETE_PROJECT({ commit }, payload) {
             await fetch(`http://localhost:8080/api/projects/${payload}`, {
