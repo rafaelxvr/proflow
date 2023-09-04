@@ -2,8 +2,6 @@ package dev.ravel.proflow.infrastructure.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.Date;
 
@@ -42,7 +40,6 @@ public class Task {
     @ManyToOne
     private Project project;
 
-    @ManyToOne(cascade = { CascadeType.REMOVE, CascadeType.ALL })
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne
     private Subtask subtask;
 }
